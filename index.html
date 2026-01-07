@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Robot Battle Arena - AI Combat Test</title>
+    <link rel="stylesheet" href="css/game.css">
+</head>
+<body>
+    <div id="game-container">
+        <div id="hud">
+            <div class="robot-status" id="player-status">
+                <h3>Player Robot</h3>
+                <div class="health-bar">
+                    <div class="health-fill" id="player-health"></div>
+                </div>
+                <div class="stats">
+                    <span>HP: <span id="player-hp">100</span>%</span>
+                    <span>Energy: <span id="player-energy">100</span>%</span>
+                </div>
+            </div>
+
+            <div class="game-info">
+                <h2>ROBOT BATTLE ARENA</h2>
+                <div id="score">Score: <span id="score-value">0</span></div>
+                <div id="round">Round: <span id="round-value">1</span></div>
+                <div id="fps">FPS: <span id="fps-value">60</span></div>
+            </div>
+
+            <div class="robot-status" id="enemy-status">
+                <h3>AI Robot</h3>
+                <div class="health-bar">
+                    <div class="health-fill enemy" id="enemy-health"></div>
+                </div>
+                <div class="stats">
+                    <span>HP: <span id="enemy-hp">100</span>%</span>
+                    <span>Energy: <span id="enemy-energy">100</span>%</span>
+                </div>
+            </div>
+        </div>
+
+        <canvas id="game-canvas"></canvas>
+
+        <div id="controls">
+            <div class="control-group">
+                <h4>Controls</h4>
+                <p>WASD - Move | Space - Jump | Mouse - Aim</p>
+                <p>Left Click - Punch | Right Click - Energy Blast</p>
+                <p>E - Special Attack | Q - Dodge</p>
+            </div>
+            <div class="control-group">
+                <button id="start-btn">Start Game</button>
+                <button id="pause-btn">Pause</button>
+                <button id="reset-btn">Reset</button>
+            </div>
+        </div>
+
+        <div id="audio-info">
+            <p>Surround Sound: <span id="audio-status">Enabled</span></p>
+            <button id="toggle-audio">Toggle Audio</button>
+        </div>
+    </div>
+
+    <!-- Engine Core -->
+    <script src="js/engine/physics.js"></script>
+    <script src="js/engine/particle.js"></script>
+    <script src="js/engine/game.js"></script>
+
+    <!-- Entities -->
+    <script src="js/entities/weapon.js"></script>
+    <script src="js/entities/robot.js"></script>
+
+    <!-- AI System -->
+    <script src="js/ai/combat-ai.js"></script>
+
+    <!-- Audio System -->
+    <script src="js/audio/sound-manager.js"></script>
+
+    <!-- Main Game Initialization -->
+    <script>
+        window.addEventListener('DOMContentLoaded', () => {
+            const game = new Game();
+            game.init();
+        });
+    </script>
+</body>
+</html>
