@@ -3,38 +3,201 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Robot Battle Arena - AI Combat Test</title>
-    <link rel="stylesheet" href="css/game.css">
+    <title>Robot Battle Arena - AI Combat Game</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 100%);
+            color: #00ff00;
+            overflow: hidden;
+            height: 100vh;
+        }
+
+        #game-container {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        #hud {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            display: flex;
+            justify-content: space-between;
+            padding: 20px;
+            background: linear-gradient(180deg, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0) 100%);
+            z-index: 10;
+        }
+
+        .robot-status {
+            background: rgba(0, 20, 40, 0.9);
+            border: 2px solid #00ff00;
+            border-radius: 10px;
+            padding: 15px;
+            min-width: 250px;
+            box-shadow: 0 0 15px rgba(0, 255, 0, 0.5);
+        }
+
+        .robot-status h3 {
+            color: #00ff00;
+            margin-bottom: 10px;
+            text-align: center;
+            font-size: 18px;
+            text-shadow: 0 0 10px rgba(0, 255, 0, 0.8);
+        }
+
+        .health-bar {
+            width: 100%;
+            height: 25px;
+            background: #001a00;
+            border: 2px solid #00ff00;
+            border-radius: 5px;
+            overflow: hidden;
+            margin-bottom: 10px;
+        }
+
+        .health-fill {
+            height: 100%;
+            width: 100%;
+            background: linear-gradient(90deg, #00ff00 0%, #00cc00 100%);
+            transition: width 0.3s ease;
+            box-shadow: 0 0 10px rgba(0, 255, 0, 0.8);
+        }
+
+        .health-fill.enemy {
+            background: linear-gradient(90deg, #ff0000 0%, #cc0000 100%);
+            box-shadow: 0 0 10px rgba(255, 0, 0, 0.8);
+        }
+
+        .stats {
+            display: flex;
+            justify-content: space-between;
+            font-size: 14px;
+            color: #00ff00;
+        }
+
+        .game-info {
+            text-align: center;
+            background: rgba(0, 20, 40, 0.9);
+            border: 2px solid #00ff00;
+            border-radius: 10px;
+            padding: 15px;
+        }
+
+        .game-info h2 {
+            font-size: 24px;
+            margin-bottom: 10px;
+            text-shadow: 0 0 15px rgba(0, 255, 0, 1);
+        }
+
+        #game-canvas {
+            background: linear-gradient(180deg, #000814 0%, #001d3d 50%, #000814 100%);
+            border: 2px solid #00ff00;
+            box-shadow: 0 0 20px rgba(0, 255, 0, 0.3);
+            flex-grow: 1;
+            cursor: crosshair;
+        }
+
+        #controls {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 20, 40, 0.9);
+            border: 2px solid #00ff00;
+            border-radius: 10px;
+            padding: 15px;
+            z-index: 10;
+            text-align: center;
+        }
+
+        #controls p {
+            font-size: 12px;
+            color: #00cc00;
+            margin: 5px 0;
+        }
+
+        button {
+            background: linear-gradient(135deg, #003300 0%, #006600 100%);
+            color: #00ff00;
+            border: 2px solid #00ff00;
+            padding: 10px 20px;
+            margin: 5px;
+            font-family: 'Arial', sans-serif;
+            font-size: 14px;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+
+        button:hover {
+            background: linear-gradient(135deg, #006600 0%, #009900 100%);
+            box-shadow: 0 0 15px rgba(0, 255, 0, 0.8);
+            transform: scale(1.05);
+        }
+
+        button:active {
+            transform: scale(0.95);
+        }
+
+        #message {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0, 0, 0, 0.9);
+            border: 3px solid #00ff00;
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+            font-size: 24px;
+            z-index: 100;
+            display: none;
+        }
+
+        #message.show {
+            display: block;
+        }
+    </style>
 </head>
 <body>
     <div id="game-container">
         <div id="hud">
-            <div class="robot-status" id="player-status">
-                <h3>Player Robot</h3>
+            <div class="robot-status">
+                <h3>플레이어 로봇</h3>
                 <div class="health-bar">
                     <div class="health-fill" id="player-health"></div>
                 </div>
                 <div class="stats">
                     <span>HP: <span id="player-hp">100</span>%</span>
-                    <span>Energy: <span id="player-energy">100</span>%</span>
+                    <span>에너지: <span id="player-energy">100</span>%</span>
                 </div>
             </div>
 
             <div class="game-info">
-                <h2>ROBOT BATTLE ARENA</h2>
-                <div id="score">Score: <span id="score-value">0</span></div>
-                <div id="round">Round: <span id="round-value">1</span></div>
-                <div id="fps">FPS: <span id="fps-value">60</span></div>
+                <h2>로봇 배틀 아레나</h2>
+                <div>점수: <span id="score-value">0</span></div>
+                <div>라운드: <span id="round-value">1</span></div>
             </div>
 
-            <div class="robot-status" id="enemy-status">
-                <h3>AI Robot</h3>
+            <div class="robot-status">
+                <h3>AI 로봇</h3>
                 <div class="health-bar">
                     <div class="health-fill enemy" id="enemy-health"></div>
                 </div>
                 <div class="stats">
                     <span>HP: <span id="enemy-hp">100</span>%</span>
-                    <span>Energy: <span id="enemy-energy">100</span>%</span>
+                    <span>에너지: <span id="enemy-energy">100</span>%</span>
                 </div>
             </div>
         </div>
@@ -42,45 +205,671 @@
         <canvas id="game-canvas"></canvas>
 
         <div id="controls">
-            <div class="control-group">
-                <h4>Controls</h4>
-                <p>WASD - Move | Space - Jump | Mouse - Aim</p>
-                <p>Left Click - Punch | Right Click - Energy Blast</p>
-                <p>E - Special Attack | Q - Dodge</p>
-            </div>
-            <div class="control-group">
-                <button id="start-btn">Start Game</button>
-                <button id="pause-btn">Pause</button>
-                <button id="reset-btn">Reset</button>
+            <p><strong>조작:</strong> WASD-이동 | Space-점프 | 좌클릭-펀치 | 우클릭-에너지블래스트</p>
+            <div>
+                <button id="start-btn">게임 시작</button>
+                <button id="pause-btn">일시정지</button>
+                <button id="reset-btn">리셋</button>
             </div>
         </div>
 
-        <div id="audio-info">
-            <p>Surround Sound: <span id="audio-status">Enabled</span></p>
-            <button id="toggle-audio">Toggle Audio</button>
-        </div>
+        <div id="message"></div>
     </div>
 
-    <!-- Engine Core -->
-    <script src="js/engine/physics.js"></script>
-    <script src="js/engine/particle.js"></script>
-    <script src="js/engine/game.js"></script>
-
-    <!-- Entities -->
-    <script src="js/entities/weapon.js"></script>
-    <script src="js/entities/robot.js"></script>
-
-    <!-- AI System -->
-    <script src="js/ai/combat-ai.js"></script>
-
-    <!-- Audio System -->
-    <script src="js/audio/sound-manager.js"></script>
-
-    <!-- Main Game Initialization -->
     <script>
+        // ===== 물리 엔진 =====
+        class PhysicsEngine {
+            constructor() {
+                this.gravity = 0.5;
+                this.friction = 0.85;
+                this.groundLevel = 0;
+            }
+
+            applyPhysics(entity) {
+                if (entity.y < this.groundLevel) {
+                    entity.vy += this.gravity;
+                }
+
+                entity.vx *= this.friction;
+
+                if (entity.y >= this.groundLevel) {
+                    entity.y = this.groundLevel;
+                    entity.vy = 0;
+                    entity.isGrounded = true;
+                } else {
+                    entity.isGrounded = false;
+                }
+
+                entity.x += entity.vx;
+                entity.y += entity.vy;
+            }
+
+            checkCollision(a, b) {
+                return (
+                    a.x < b.x + b.width &&
+                    a.x + a.width > b.x &&
+                    a.y < b.y + b.height &&
+                    a.y + a.height > b.y
+                );
+            }
+
+            resolveCollision(a, b) {
+                const dx = (a.x + a.width/2) - (b.x + b.width/2);
+                const pushForce = dx > 0 ? 3 : -3;
+                a.vx += pushForce;
+                b.vx -= pushForce;
+            }
+        }
+
+        // ===== 파티클 시스템 =====
+        class Particle {
+            constructor(x, y, vx, vy, color, life) {
+                this.x = x;
+                this.y = y;
+                this.vx = vx;
+                this.vy = vy;
+                this.color = color;
+                this.life = life;
+                this.maxLife = life;
+            }
+
+            update() {
+                this.vx *= 0.98;
+                this.vy += 0.2;
+                this.x += this.vx;
+                this.y += this.vy;
+                this.life--;
+                return this.life > 0;
+            }
+
+            draw(ctx) {
+                ctx.save();
+                ctx.globalAlpha = this.life / this.maxLife;
+                ctx.fillStyle = this.color;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, 3, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.restore();
+            }
+        }
+
+        class ParticleSystem {
+            constructor() {
+                this.particles = [];
+            }
+
+            createExplosion(x, y, color) {
+                for (let i = 0; i < 20; i++) {
+                    const angle = (Math.PI * 2 * i) / 20;
+                    const speed = 2 + Math.random() * 4;
+                    const vx = Math.cos(angle) * speed;
+                    const vy = Math.sin(angle) * speed;
+                    this.particles.push(new Particle(x, y, vx, vy, color, 30));
+                }
+            }
+
+            update() {
+                this.particles = this.particles.filter(p => p.update());
+            }
+
+            draw(ctx) {
+                this.particles.forEach(p => p.draw(ctx));
+            }
+        }
+
+        // ===== 로봇 클래스 =====
+        class Robot {
+            constructor(x, y, isPlayer, color) {
+                this.x = x;
+                this.y = y;
+                this.width = 40;
+                this.height = 60;
+                this.vx = 0;
+                this.vy = 0;
+                this.isGrounded = false;
+                this.isPlayer = isPlayer;
+                this.color = color;
+
+                this.maxHealth = 100;
+                this.health = 100;
+                this.maxEnergy = 100;
+                this.energy = 100;
+
+                this.facing = isPlayer ? 1 : -1;
+                this.attacking = false;
+                this.attackCooldown = 0;
+                this.shootCooldown = 0;
+
+                this.projectiles = [];
+            }
+
+            move(direction) {
+                this.vx += direction * 0.5;
+                if (direction !== 0) {
+                    this.facing = direction;
+                }
+            }
+
+            jump() {
+                if (this.isGrounded && this.energy >= 10) {
+                    this.vy = -12;
+                    this.energy -= 10;
+                }
+            }
+
+            attack() {
+                if (this.attackCooldown <= 0 && this.energy >= 5) {
+                    this.attacking = true;
+                    this.attackCooldown = 30;
+                    this.energy -= 5;
+                    setTimeout(() => this.attacking = false, 200);
+                    return true;
+                }
+                return false;
+            }
+
+            shoot(targetX, targetY) {
+                if (this.shootCooldown <= 0 && this.energy >= 15) {
+                    const dx = targetX - (this.x + this.width/2);
+                    const dy = targetY - (this.y + this.height/2);
+                    const dist = Math.sqrt(dx*dx + dy*dy);
+
+                    this.projectiles.push({
+                        x: this.x + this.width/2,
+                        y: this.y + this.height/2,
+                        vx: (dx/dist) * 8,
+                        vy: (dy/dist) * 8,
+                        life: 100,
+                        damage: 15
+                    });
+
+                    this.shootCooldown = 40;
+                    this.energy -= 15;
+                    return true;
+                }
+                return false;
+            }
+
+            takeDamage(amount) {
+                this.health = Math.max(0, this.health - amount);
+                return this.health > 0;
+            }
+
+            update() {
+                if (this.energy < this.maxEnergy) {
+                    this.energy = Math.min(this.maxEnergy, this.energy + 0.2);
+                }
+
+                if (this.attackCooldown > 0) this.attackCooldown--;
+                if (this.shootCooldown > 0) this.shootCooldown--;
+
+                // Update projectiles
+                this.projectiles = this.projectiles.filter(p => {
+                    p.x += p.vx;
+                    p.y += p.vy;
+                    p.life--;
+                    return p.life > 0;
+                });
+            }
+
+            draw(ctx) {
+                // Body
+                ctx.fillStyle = this.color;
+                ctx.fillRect(this.x, this.y, this.width, this.height);
+
+                // Head
+                ctx.fillRect(this.x + 5, this.y - 15, 30, 15);
+
+                // Eyes
+                ctx.fillStyle = '#ffffff';
+                ctx.fillRect(this.x + 10, this.y - 10, 5, 5);
+                ctx.fillRect(this.x + 25, this.y - 10, 5, 5);
+
+                // Arms
+                const armY = this.y + 15;
+                ctx.fillStyle = this.color;
+                ctx.fillRect(this.x - 8, armY, 8, 20);
+                ctx.fillRect(this.x + this.width, armY, 8, 20);
+
+                // Legs
+                ctx.fillRect(this.x + 5, this.y + this.height, 12, 15);
+                ctx.fillRect(this.x + 23, this.y + this.height, 12, 15);
+
+                // Attack indicator
+                if (this.attacking) {
+                    ctx.fillStyle = '#ffff00';
+                    const attackX = this.facing > 0 ? this.x + this.width : this.x - 30;
+                    ctx.fillRect(attackX, this.y + 20, 30, 20);
+                }
+
+                // Draw projectiles
+                ctx.fillStyle = '#00ffff';
+                ctx.shadowBlur = 10;
+                ctx.shadowColor = '#00ffff';
+                this.projectiles.forEach(p => {
+                    ctx.beginPath();
+                    ctx.arc(p.x, p.y, 5, 0, Math.PI * 2);
+                    ctx.fill();
+                });
+                ctx.shadowBlur = 0;
+            }
+
+            getAttackBox() {
+                if (!this.attacking) return null;
+                return {
+                    x: this.facing > 0 ? this.x + this.width : this.x - 30,
+                    y: this.y + 20,
+                    width: 30,
+                    height: 20
+                };
+            }
+        }
+
+        // ===== AI 시스템 =====
+        class CombatAI {
+            constructor(robot, player) {
+                this.robot = robot;
+                this.player = player;
+                this.state = 'idle';
+                this.stateTimer = 0;
+                this.decisionTimer = 0;
+            }
+
+            update() {
+                this.stateTimer++;
+                this.decisionTimer++;
+
+                if (this.decisionTimer > 30) {
+                    this.makeDecision();
+                    this.decisionTimer = 0;
+                }
+
+                this.executeState();
+            }
+
+            makeDecision() {
+                const distance = Math.abs(this.player.x - this.robot.x);
+                const healthRatio = this.robot.health / this.robot.maxHealth;
+
+                if (distance < 100 && this.robot.energy > 20) {
+                    this.state = Math.random() > 0.5 ? 'attack' : 'shoot';
+                } else if (distance < 200) {
+                    this.state = healthRatio < 0.3 ? 'retreat' : 'approach';
+                } else {
+                    this.state = 'approach';
+                }
+            }
+
+            executeState() {
+                const distance = this.player.x - this.robot.x;
+
+                switch(this.state) {
+                    case 'approach':
+                        this.robot.move(distance > 0 ? 1 : -1);
+                        if (this.robot.isGrounded && Math.random() < 0.02) {
+                            this.robot.jump();
+                        }
+                        break;
+
+                    case 'retreat':
+                        this.robot.move(distance > 0 ? -1 : 1);
+                        if (this.robot.isGrounded && Math.random() < 0.05) {
+                            this.robot.jump();
+                        }
+                        break;
+
+                    case 'attack':
+                        this.robot.facing = distance > 0 ? 1 : -1;
+                        this.robot.attack();
+                        break;
+
+                    case 'shoot':
+                        this.robot.facing = distance > 0 ? 1 : -1;
+                        this.robot.shoot(
+                            this.player.x + this.player.width/2,
+                            this.player.y + this.player.height/2
+                        );
+                        break;
+                }
+            }
+        }
+
+        // ===== 게임 메인 클래스 =====
+        class Game {
+            constructor() {
+                this.canvas = document.getElementById('game-canvas');
+                this.ctx = this.canvas.getContext('2d');
+
+                this.running = false;
+                this.paused = false;
+
+                this.physics = new PhysicsEngine();
+                this.particles = new ParticleSystem();
+
+                this.player = null;
+                this.enemy = null;
+                this.ai = null;
+
+                this.keys = {};
+                this.mouse = { x: 0, y: 0, left: false, right: false };
+
+                this.score = 0;
+                this.round = 1;
+
+                this.init();
+            }
+
+            init() {
+                this.resizeCanvas();
+                window.addEventListener('resize', () => this.resizeCanvas());
+
+                this.setupInput();
+                this.setupUI();
+
+                this.createEntities();
+            }
+
+            resizeCanvas() {
+                this.canvas.width = window.innerWidth;
+                this.canvas.height = window.innerHeight - 100;
+                this.physics.groundLevel = this.canvas.height - 100;
+            }
+
+            setupInput() {
+                document.addEventListener('keydown', e => {
+                    this.keys[e.key.toLowerCase()] = true;
+                    if (['w','a','s','d',' '].includes(e.key.toLowerCase())) {
+                        e.preventDefault();
+                    }
+                });
+
+                document.addEventListener('keyup', e => {
+                    this.keys[e.key.toLowerCase()] = false;
+                });
+
+                this.canvas.addEventListener('mousemove', e => {
+                    const rect = this.canvas.getBoundingClientRect();
+                    this.mouse.x = e.clientX - rect.left;
+                    this.mouse.y = e.clientY - rect.top;
+                });
+
+                this.canvas.addEventListener('mousedown', e => {
+                    if (e.button === 0) this.mouse.left = true;
+                    if (e.button === 2) this.mouse.right = true;
+                    e.preventDefault();
+                });
+
+                this.canvas.addEventListener('mouseup', e => {
+                    if (e.button === 0) this.mouse.left = false;
+                    if (e.button === 2) this.mouse.right = false;
+                });
+
+                this.canvas.addEventListener('contextmenu', e => e.preventDefault());
+            }
+
+            setupUI() {
+                document.getElementById('start-btn').addEventListener('click', () => this.start());
+                document.getElementById('pause-btn').addEventListener('click', () => this.togglePause());
+                document.getElementById('reset-btn').addEventListener('click', () => this.reset());
+            }
+
+            createEntities() {
+                this.player = new Robot(200, this.physics.groundLevel, true, '#00ff00');
+                this.enemy = new Robot(this.canvas.width - 250, this.physics.groundLevel, false, '#ff0000');
+                this.ai = new CombatAI(this.enemy, this.player);
+            }
+
+            start() {
+                if (!this.running) {
+                    this.running = true;
+                    this.paused = false;
+                    this.gameLoop();
+                    this.showMessage('게임 시작!', 1000);
+                }
+            }
+
+            togglePause() {
+                if (this.running) {
+                    this.paused = !this.paused;
+                    this.showMessage(this.paused ? '일시정지' : '재개', 500);
+                    if (!this.paused) {
+                        this.gameLoop();
+                    }
+                }
+            }
+
+            reset() {
+                this.running = false;
+                this.paused = false;
+                this.score = 0;
+                this.round = 1;
+                this.particles.particles = [];
+                this.createEntities();
+                this.updateUI();
+                this.showMessage('리셋 완료', 1000);
+            }
+
+            gameLoop() {
+                if (!this.running || this.paused) return;
+
+                this.update();
+                this.render();
+
+                requestAnimationFrame(() => this.gameLoop());
+            }
+
+            update() {
+                // Player input
+                if (this.keys['a']) this.player.move(-1);
+                if (this.keys['d']) this.player.move(1);
+                if (this.keys[' '] || this.keys['w']) this.player.jump();
+
+                if (this.mouse.left) {
+                    if (this.player.attack()) {
+                        this.mouse.left = false;
+                    }
+                }
+
+                if (this.mouse.right) {
+                    if (this.player.shoot(this.mouse.x, this.mouse.y)) {
+                        this.mouse.right = false;
+                    }
+                }
+
+                // Update AI
+                this.ai.update();
+
+                // Update entities
+                this.player.update();
+                this.enemy.update();
+
+                this.physics.applyPhysics(this.player);
+                this.physics.applyPhysics(this.enemy);
+
+                // Constrain to bounds
+                this.player.x = Math.max(0, Math.min(this.canvas.width - this.player.width, this.player.x));
+                this.enemy.x = Math.max(0, Math.min(this.canvas.width - this.enemy.width, this.enemy.x));
+
+                // Check collisions
+                this.checkCombat();
+
+                // Update particles
+                this.particles.update();
+
+                // Update UI
+                this.updateUI();
+
+                // Check game over
+                if (this.player.health <= 0) {
+                    this.gameOver(false);
+                } else if (this.enemy.health <= 0) {
+                    this.nextRound();
+                }
+            }
+
+            checkCombat() {
+                // Robot collision
+                if (this.physics.checkCollision(this.player, this.enemy)) {
+                    this.physics.resolveCollision(this.player, this.enemy);
+                }
+
+                // Player melee attack
+                const playerAttack = this.player.getAttackBox();
+                if (playerAttack && this.physics.checkCollision(playerAttack, this.enemy)) {
+                    if (this.enemy.takeDamage(10)) {
+                        this.particles.createExplosion(
+                            this.enemy.x + this.enemy.width/2,
+                            this.enemy.y + this.enemy.height/2,
+                            '#ff6600'
+                        );
+                        this.score += 10;
+                        this.enemy.vx += this.player.facing * 5;
+                    }
+                }
+
+                // Enemy melee attack
+                const enemyAttack = this.enemy.getAttackBox();
+                if (enemyAttack && this.physics.checkCollision(enemyAttack, this.player)) {
+                    if (this.player.takeDamage(10)) {
+                        this.particles.createExplosion(
+                            this.player.x + this.player.width/2,
+                            this.player.y + this.player.height/2,
+                            '#ff6600'
+                        );
+                        this.player.vx += this.enemy.facing * 5;
+                    }
+                }
+
+                // Player projectiles
+                this.player.projectiles.forEach((proj, i) => {
+                    if (this.physics.checkCollision(
+                        {x: proj.x-5, y: proj.y-5, width: 10, height: 10},
+                        this.enemy
+                    )) {
+                        if (this.enemy.takeDamage(proj.damage)) {
+                            this.particles.createExplosion(proj.x, proj.y, '#00ffff');
+                            this.score += 15;
+                            this.enemy.vx += proj.vx * 0.5;
+                        }
+                        this.player.projectiles.splice(i, 1);
+                    }
+                });
+
+                // Enemy projectiles
+                this.enemy.projectiles.forEach((proj, i) => {
+                    if (this.physics.checkCollision(
+                        {x: proj.x-5, y: proj.y-5, width: 10, height: 10},
+                        this.player
+                    )) {
+                        if (this.player.takeDamage(proj.damage)) {
+                            this.particles.createExplosion(proj.x, proj.y, '#00ffff');
+                            this.player.vx += proj.vx * 0.5;
+                        }
+                        this.enemy.projectiles.splice(i, 1);
+                    }
+                });
+            }
+
+            updateUI() {
+                document.getElementById('player-health').style.width =
+                    (this.player.health / this.player.maxHealth * 100) + '%';
+                document.getElementById('player-hp').textContent =
+                    Math.round(this.player.health);
+                document.getElementById('player-energy').textContent =
+                    Math.round(this.player.energy);
+
+                document.getElementById('enemy-health').style.width =
+                    (this.enemy.health / this.enemy.maxHealth * 100) + '%';
+                document.getElementById('enemy-hp').textContent =
+                    Math.round(this.enemy.health);
+                document.getElementById('enemy-energy').textContent =
+                    Math.round(this.enemy.energy);
+
+                document.getElementById('score-value').textContent = this.score;
+                document.getElementById('round-value').textContent = this.round;
+            }
+
+            nextRound() {
+                this.running = false;
+                this.round++;
+                this.score += 500;
+
+                this.showMessage(`라운드 ${this.round} 클리어!`, 2000);
+
+                setTimeout(() => {
+                    this.player.health = Math.min(100, this.player.health + 30);
+                    this.player.energy = 100;
+                    this.player.x = 200;
+                    this.player.y = this.physics.groundLevel;
+                    this.player.vx = 0;
+                    this.player.vy = 0;
+
+                    this.enemy = new Robot(
+                        this.canvas.width - 250,
+                        this.physics.groundLevel,
+                        false,
+                        '#ff0000'
+                    );
+                    this.enemy.maxHealth += this.round * 10;
+                    this.enemy.health = this.enemy.maxHealth;
+                    this.ai = new CombatAI(this.enemy, this.player);
+
+                    this.particles.particles = [];
+                    this.running = true;
+                    this.gameLoop();
+                }, 2000);
+            }
+
+            gameOver(won) {
+                this.running = false;
+                this.showMessage(
+                    won ? `승리! 최종 점수: ${this.score}` : `패배! 최종 점수: ${this.score}`,
+                    5000
+                );
+            }
+
+            showMessage(text, duration) {
+                const msg = document.getElementById('message');
+                msg.textContent = text;
+                msg.classList.add('show');
+                setTimeout(() => msg.classList.remove('show'), duration);
+            }
+
+            render() {
+                // Clear
+                this.ctx.fillStyle = '#000814';
+                this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+
+                // Grid
+                this.ctx.strokeStyle = '#00ff0020';
+                this.ctx.lineWidth = 1;
+                for (let x = 0; x < this.canvas.width; x += 50) {
+                    this.ctx.beginPath();
+                    this.ctx.moveTo(x, 0);
+                    this.ctx.lineTo(x, this.canvas.height);
+                    this.ctx.stroke();
+                }
+
+                // Ground
+                this.ctx.strokeStyle = '#00ff00';
+                this.ctx.lineWidth = 3;
+                this.ctx.beginPath();
+                this.ctx.moveTo(0, this.physics.groundLevel);
+                this.ctx.lineTo(this.canvas.width, this.physics.groundLevel);
+                this.ctx.stroke();
+
+                // Entities
+                this.enemy.draw(this.ctx);
+                this.player.draw(this.ctx);
+
+                // Particles
+                this.particles.draw(this.ctx);
+            }
+        }
+
+        // ===== 게임 시작 =====
         window.addEventListener('DOMContentLoaded', () => {
-            const game = new Game();
-            game.init();
+            new Game();
         });
     </script>
 </body>
