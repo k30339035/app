@@ -36,6 +36,57 @@ body {
     flex-direction: column;
 }
 
+/* 로딩 화면 */
+#loading-screen {
+    background: radial-gradient(ellipse at center, rgba(74, 0, 224, 0.3) 0%, transparent 70%),
+                linear-gradient(135deg, #0a0a1a 0%, #1a0a2e 100%);
+    animation: backgroundPulse 10s ease-in-out infinite;
+}
+
+.loading-content {
+    text-align: center;
+    animation: fadeIn 0.5s ease-out;
+}
+
+.loading-spinner {
+    width: 80px;
+    height: 80px;
+    margin: 0 auto 2rem;
+    border: 4px solid rgba(0, 212, 255, 0.2);
+    border-top: 4px solid #00d4ff;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.loading-bar {
+    width: 400px;
+    height: 8px;
+    background: rgba(0, 0, 0, 0.5);
+    border: 1px solid #0084ff;
+    border-radius: 10px;
+    overflow: hidden;
+    margin: 2rem auto 1rem;
+}
+
+.loading-progress {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, #0084ff, #00d4ff);
+    transition: width 0.3s ease;
+    box-shadow: 0 0 10px rgba(0, 212, 255, 0.5);
+}
+
+.loading-text {
+    color: #00d4ff;
+    font-size: 1rem;
+    margin-top: 1rem;
+}
+
 /* 메인 메뉴 */
 #main-menu {
     background: radial-gradient(ellipse at center, rgba(74, 0, 224, 0.3) 0%, transparent 70%),
@@ -96,6 +147,7 @@ body {
     gap: 1rem;
     justify-content: center;
     margin-top: 1rem;
+    flex-wrap: wrap;
 }
 
 .badge {
@@ -175,6 +227,7 @@ body {
     margin-top: 3rem;
     justify-content: center;
     animation: fadeIn 1s ease-out 0.6s both;
+    flex-wrap: wrap;
 }
 
 .stat-item {
@@ -206,13 +259,16 @@ body {
     align-items: flex-start;
 }
 
-.trends-container {
+.trends-container,
+.controls-container {
     max-width: 1200px;
     padding: 2rem;
     animation: fadeIn 0.5s ease-out;
+    width: 100%;
 }
 
-.trends-container h2 {
+.trends-container h2,
+.controls-container h2 {
     font-size: 2.5rem;
     margin-bottom: 2rem;
     background: linear-gradient(45deg, #00f2ff, #0084ff);
@@ -230,6 +286,7 @@ body {
     cursor: pointer;
     margin-bottom: 2rem;
     transition: all 0.3s ease;
+    font-size: 1rem;
 }
 
 .back-btn:hover {
@@ -251,6 +308,12 @@ body {
     padding: 1.5rem;
     backdrop-filter: blur(10px);
     transition: all 0.3s ease;
+}
+
+.trend-card.highlight {
+    border-color: #00d4ff;
+    background: rgba(0, 132, 255, 0.1);
+    box-shadow: 0 0 20px rgba(0, 212, 255, 0.3);
 }
 
 .trend-card:hover {
@@ -315,16 +378,74 @@ body {
     left: 0;
 }
 
+/* 조작법 화면 */
+#controls-screen {
+    background: linear-gradient(135deg, #0a0a1a 0%, #1a0a2e 100%);
+    overflow-y: auto;
+    align-items: flex-start;
+}
+
+.controls-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+}
+
+.control-section {
+    background: rgba(0, 132, 255, 0.05);
+    border: 1px solid rgba(0, 132, 255, 0.3);
+    border-radius: 12px;
+    padding: 1.5rem;
+}
+
+.control-section h3 {
+    color: #00d4ff;
+    margin-bottom: 1rem;
+    font-size: 1.3rem;
+    border-bottom: 2px solid rgba(0, 132, 255, 0.3);
+    padding-bottom: 0.5rem;
+}
+
+.control-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.8rem 0;
+    border-bottom: 1px solid rgba(0, 132, 255, 0.1);
+}
+
+.control-item:last-child {
+    border-bottom: none;
+}
+
+.key {
+    background: rgba(0, 132, 255, 0.2);
+    border: 1px solid #0084ff;
+    padding: 0.4rem 0.8rem;
+    border-radius: 6px;
+    font-family: monospace;
+    font-weight: bold;
+    color: #00d4ff;
+    min-width: 80px;
+    text-align: center;
+}
+
+.desc {
+    color: rgba(255, 255, 255, 0.8);
+    flex: 1;
+    text-align: right;
+}
+
 /* 게임 화면 */
 #game-screen {
     background: #000;
 }
 
-#game-canvas {
-    display: block;
+#renderCanvas {
     width: 100%;
     height: 100%;
-    background: radial-gradient(ellipse at center, #0a0520 0%, #000000 100%);
+    display: block;
+    outline: none;
 }
 
 /* 게임 HUD */
@@ -333,22 +454,25 @@ body {
     top: 0;
     left: 0;
     width: 100%;
-    padding: 1rem;
+    height: 100%;
     pointer-events: none;
+    padding: 1rem;
 }
 
 .hud-top {
     display: flex;
     justify-content: space-around;
-    gap: 2rem;
-    margin-bottom: 1rem;
+    gap: 1rem;
+    flex-wrap: wrap;
 }
 
 .hud-bottom {
+    position: absolute;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
     display: flex;
-    justify-content: center;
-    gap: 3rem;
-    margin-top: 1rem;
+    gap: 2rem;
 }
 
 .hud-item {
@@ -376,7 +500,8 @@ body {
     text-align: right;
 }
 
-.health-bar {
+.health-bar,
+.energy-bar {
     width: 150px;
     height: 20px;
     background: rgba(0, 0, 0, 0.5);
@@ -394,6 +519,14 @@ body {
     box-shadow: 0 0 10px rgba(0, 255, 136, 0.5);
 }
 
+.energy-fill {
+    height: 100%;
+    width: 100%;
+    background: linear-gradient(90deg, #ffaa00, #ff6600);
+    transition: width 0.3s ease;
+    box-shadow: 0 0 10px rgba(255, 170, 0, 0.5);
+}
+
 .weapon-info,
 .ammo-info {
     display: flex;
@@ -404,6 +537,24 @@ body {
     border-radius: 8px;
     border: 1px solid rgba(0, 132, 255, 0.5);
     backdrop-filter: blur(10px);
+}
+
+/* 미니맵 */
+.minimap {
+    position: absolute;
+    bottom: 2rem;
+    right: 2rem;
+    width: 200px;
+    height: 200px;
+    background: rgba(0, 20, 40, 0.8);
+    border: 2px solid rgba(0, 132, 255, 0.5);
+    border-radius: 10px;
+    overflow: hidden;
+    backdrop-filter: blur(10px);
+}
+
+#minimap-canvas {
+    display: block;
 }
 
 /* 오버레이 */
@@ -419,6 +570,7 @@ body {
     justify-content: center;
     backdrop-filter: blur(10px);
     z-index: 1000;
+    pointer-events: all;
 }
 
 .overlay.hidden {
@@ -484,29 +636,6 @@ body {
     min-width: 300px;
 }
 
-.controls-info {
-    margin-top: 2rem;
-    padding: 1.5rem;
-    background: rgba(0, 132, 255, 0.05);
-    border-radius: 10px;
-    text-align: left;
-}
-
-.controls-info h3 {
-    color: #00d4ff;
-    margin-bottom: 1rem;
-}
-
-.controls-info p {
-    color: rgba(255, 255, 255, 0.8);
-    margin: 0.5rem 0;
-    line-height: 1.6;
-}
-
-.controls-info strong {
-    color: #00ff88;
-}
-
 /* 반응형 */
 @media (max-width: 768px) {
     .game-title {
@@ -522,7 +651,8 @@ body {
         gap: 1rem;
     }
 
-    .trends-content {
+    .trends-content,
+    .controls-grid {
         grid-template-columns: 1fr;
     }
 
@@ -533,6 +663,14 @@ body {
 
     .hud-item {
         padding: 0.5rem 1rem;
+        font-size: 0.8rem;
+    }
+
+    .minimap {
+        width: 120px;
+        height: 120px;
+        bottom: 1rem;
+        right: 1rem;
     }
 }
 

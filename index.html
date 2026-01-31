@@ -3,19 +3,44 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>우주 드론 대전 2026 - Space Drone Wars</title>
+    <title>Space Drone Wars 2026 - Babylon.js 3D Edition</title>
     <link rel="stylesheet" href="styles.css">
+
+    <!-- Babylon.js CDN -->
+    <script src="https://cdn.babylonjs.com/babylon.js"></script>
+    <script src="https://cdn.babylonjs.com/loaders/babylonjs.loaders.min.js"></script>
+    <script src="https://cdn.babylonjs.com/gui/babylon.gui.min.js"></script>
 </head>
 <body>
     <div id="game-container">
+        <!-- 로딩 화면 -->
+        <div id="loading-screen" class="screen active">
+            <div class="loading-content">
+                <div class="loading-spinner"></div>
+                <h1 class="game-title">SPACE DRONE WARS 2026</h1>
+                <p class="subtitle">Babylon.js 3D Edition</p>
+                <div class="loading-bar">
+                    <div class="loading-progress" id="loading-progress"></div>
+                </div>
+                <p class="loading-text" id="loading-text">시스템 초기화 중...</p>
+                <div class="tech-badges">
+                    <span class="badge">Babylon.js 3D</span>
+                    <span class="badge">PBR Materials</span>
+                    <span class="badge">Physics Engine</span>
+                    <span class="badge">Spatial Audio</span>
+                </div>
+            </div>
+        </div>
+
         <!-- 메인 메뉴 -->
-        <div id="main-menu" class="screen active">
+        <div id="main-menu" class="screen">
             <div class="title-container">
                 <h1 class="game-title">SPACE DRONE WARS</h1>
-                <p class="subtitle">2026 차세대 우주 전투 시뮬레이터</p>
+                <p class="subtitle">2026 Babylon.js 3D 우주 전투 시뮬레이터</p>
                 <div class="tech-badges">
-                    <span class="badge">AI-Powered</span>
+                    <span class="badge">3D Graphics</span>
                     <span class="badge">Real-time Physics</span>
+                    <span class="badge">AI-Powered</span>
                     <span class="badge">Multiplayer</span>
                 </div>
             </div>
@@ -37,6 +62,10 @@
                     <span class="btn-icon">📊</span>
                     <span>2026 게임 트렌드 정보</span>
                 </button>
+                <button class="menu-btn" onclick="game.showControls()">
+                    <span class="btn-icon">🎮</span>
+                    <span>조작법</span>
+                </button>
             </div>
 
             <div class="stats-preview">
@@ -52,69 +81,190 @@
                     <div class="stat-label">플레이 시간</div>
                     <div class="stat-value" id="play-time">0h</div>
                 </div>
+                <div class="stat-item">
+                    <div class="stat-label">최고 웨이브</div>
+                    <div class="stat-value" id="best-wave">0</div>
+                </div>
             </div>
         </div>
 
         <!-- 게임 트렌드 정보 화면 -->
         <div id="trends-screen" class="screen">
             <div class="trends-container">
-                <h2>🎮 2026년 게임 개발 트렌드</h2>
+                <h2>🎮 2026년 게임 개발 트렌드 - Babylon.js 적용</h2>
                 <button class="back-btn" onclick="game.showMainMenu()">← 메인 메뉴</button>
 
                 <div class="trends-content">
+                    <div class="trend-card highlight">
+                        <h3>🎨 3D 그래픽 혁명</h3>
+                        <p><strong>Babylon.js</strong>는 웹 기반 3D 게임 엔진으로, WebGL을 활용한 고품질 3D 렌더링을 제공합니다. PBR(Physically Based Rendering) 머티리얼로 실사 같은 그래픽을 구현했습니다.</p>
+                        <div class="tech-used">✓ Babylon.js 6.0 엔진</div>
+                    </div>
+
                     <div class="trend-card">
                         <h3>🤖 AI 기술 혁명</h3>
-                        <p>97%의 게임 개발자가 AI를 활용하여 에셋 생성, 플레이테스트, 현지화를 가속화하고 있습니다. 이 게임은 고급 AI 알고리즘을 사용한 스마트 적 드론을 구현했습니다.</p>
-                        <div class="tech-used">✓ 이 게임에 적용됨</div>
+                        <p>97%의 게임 개발자가 AI를 활용하여 에셋 생성, 플레이테스트, 현지화를 가속화하고 있습니다. 이 게임은 3D 공간에서 작동하는 고급 AI 알고리즘을 구현했습니다.</p>
+                        <div class="tech-used">✓ 3D 공간 AI 행동 트리</div>
+                    </div>
+
+                    <div class="trend-card">
+                        <h3>⚡ 물리 엔진</h3>
+                        <p>Babylon.js의 내장 물리 엔진(Ammo.js/Cannon.js)을 사용하여 실제와 같은 충돌, 중력, 관성을 시뮬레이션합니다.</p>
+                        <div class="tech-used">✓ Babylon.js Physics</div>
                     </div>
 
                     <div class="trend-card">
                         <h3>☁️ 클라우드 게이밍</h3>
-                        <p>클라우드 게이밍 시장은 2025년부터 2030년까지 1,207% 성장할 것으로 예상되며, 183억 달러 규모에 달할 것입니다. 브라우저 기반 HTML5 게임으로 즉시 플레이 가능합니다.</p>
-                        <div class="tech-used">✓ 이 게임에 적용됨</div>
+                        <p>클라우드 게이밍 시장은 2025년부터 2030년까지 1,207% 성장할 것으로 예상되며, 183억 달러 규모에 달할 것입니다. 브라우저 기반으로 즉시 플레이 가능합니다.</p>
+                        <div class="tech-used">✓ 웹 기반 3D</div>
                     </div>
 
                     <div class="trend-card">
                         <h3>🎯 크로스 플랫폼</h3>
-                        <p>콘솔, PC, 모바일 간의 경계가 모호해지고 있으며, 플레이어들은 원활한 크로스 플랫폼 경험을 기대합니다. 이 게임은 모든 디바이스에서 플레이 가능합니다.</p>
-                        <div class="tech-used">✓ 이 게임에 적용됨</div>
+                        <p>WebGL 기반으로 모든 플랫폼에서 동일한 3D 경험을 제공합니다. PC, 모바일, 태블릿 모두 지원합니다.</p>
+                        <div class="tech-used">✓ WebGL 호환</div>
                     </div>
 
                     <div class="trend-card">
-                        <h3>🎨 실시간 물리 시뮬레이션</h3>
-                        <p>차세대 게임 엔진은 실시간 물리 엔진과 파티클 시스템을 통해 몰입감 있는 경험을 제공합니다. 이 게임은 실시간 충돌 감지와 파티클 효과를 구현했습니다.</p>
-                        <div class="tech-used">✓ 이 게임에 적용됨</div>
-                    </div>
-
-                    <div class="trend-card">
-                        <h3>👥 멀티플레이어 & 소셜</h3>
-                        <p>멀티플레이어 기능과 사용자 생성 콘텐츠가 핵심입니다. 로블록스는 160만 명의 수익화 크리에이터를 보유하고 있습니다.</p>
-                        <div class="tech-used">✓ 이 게임에 적용됨</div>
-                    </div>
-
-                    <div class="trend-card">
-                        <h3>📈 산업 전망</h3>
-                        <p>글로벌 게임 수익은 올해 1,890억 달러에 달할 것으로 예상되며, 장기적으로 지속적인 성장이 전망됩니다.</p>
+                        <h3>🔊 공간 오디오</h3>
+                        <p>Babylon.js의 3D 오디오 시스템으로 실제 공간감을 재현합니다. 소리의 방향과 거리를 느낄 수 있습니다.</p>
+                        <div class="tech-used">✓ 3D Spatial Audio</div>
                     </div>
                 </div>
 
                 <div class="trends-footer">
-                    <p><strong>이 게임의 기술 스택:</strong></p>
+                    <p><strong>이 게임의 Babylon.js 기술 스택:</strong></p>
                     <ul>
-                        <li>HTML5 Canvas 2D - 최신 웹 그래픽 API</li>
-                        <li>JavaScript ES6+ - 모던 프로그래밍</li>
-                        <li>실시간 물리 엔진 - 리얼리스틱한 움직임</li>
-                        <li>AI 행동 트리 - 스마트 적 AI</li>
-                        <li>파티클 시스템 - 화려한 이펙트</li>
-                        <li>로컬 스토리지 - 진행 상황 저장</li>
+                        <li><strong>Babylon.js 6.0</strong> - 최신 3D 웹 엔진</li>
+                        <li><strong>PBR Materials</strong> - 물리 기반 렌더링</li>
+                        <li><strong>Shadow Generator</strong> - 실시간 그림자</li>
+                        <li><strong>Particle Systems</strong> - GPU 가속 파티클</li>
+                        <li><strong>Physics Engine</strong> - 실제 물리 시뮬레이션</li>
+                        <li><strong>3D Audio</strong> - 공간 오디오 시스템</li>
+                        <li><strong>Post-Processing</strong> - 글로우, 블룸 효과</li>
+                        <li><strong>Scene Optimizer</strong> - 자동 성능 최적화</li>
                     </ul>
                 </div>
             </div>
         </div>
 
-        <!-- 게임 화면 -->
+        <!-- 조작법 화면 -->
+        <div id="controls-screen" class="screen">
+            <div class="controls-container">
+                <h2>🎮 조작법</h2>
+                <button class="back-btn" onclick="game.showMainMenu()">← 메인 메뉴</button>
+
+                <div class="controls-grid">
+                    <div class="control-section">
+                        <h3>플레이어 1 조작</h3>
+                        <div class="control-item">
+                            <span class="key">W / ↑</span>
+                            <span class="desc">전진</span>
+                        </div>
+                        <div class="control-item">
+                            <span class="key">S / ↓</span>
+                            <span class="desc">후진</span>
+                        </div>
+                        <div class="control-item">
+                            <span class="key">A / ←</span>
+                            <span class="desc">좌회전</span>
+                        </div>
+                        <div class="control-item">
+                            <span class="key">D / →</span>
+                            <span class="desc">우회전</span>
+                        </div>
+                        <div class="control-item">
+                            <span class="key">Q</span>
+                            <span class="desc">상승</span>
+                        </div>
+                        <div class="control-item">
+                            <span class="key">E</span>
+                            <span class="desc">하강</span>
+                        </div>
+                        <div class="control-item">
+                            <span class="key">SPACE</span>
+                            <span class="desc">발사</span>
+                        </div>
+                    </div>
+
+                    <div class="control-section">
+                        <h3>플레이어 2 조작</h3>
+                        <div class="control-item">
+                            <span class="key">I</span>
+                            <span class="desc">전진</span>
+                        </div>
+                        <div class="control-item">
+                            <span class="key">K</span>
+                            <span class="desc">후진</span>
+                        </div>
+                        <div class="control-item">
+                            <span class="key">J</span>
+                            <span class="desc">좌회전</span>
+                        </div>
+                        <div class="control-item">
+                            <span class="key">L</span>
+                            <span class="desc">우회전</span>
+                        </div>
+                        <div class="control-item">
+                            <span class="key">U</span>
+                            <span class="desc">상승</span>
+                        </div>
+                        <div class="control-item">
+                            <span class="key">O</span>
+                            <span class="desc">하강</span>
+                        </div>
+                        <div class="control-item">
+                            <span class="key">ENTER</span>
+                            <span class="desc">발사</span>
+                        </div>
+                    </div>
+
+                    <div class="control-section">
+                        <h3>카메라 조작</h3>
+                        <div class="control-item">
+                            <span class="key">1</span>
+                            <span class="desc">추격 카메라</span>
+                        </div>
+                        <div class="control-item">
+                            <span class="key">2</span>
+                            <span class="desc">자유 카메라</span>
+                        </div>
+                        <div class="control-item">
+                            <span class="key">3</span>
+                            <span class="desc">탑뷰 카메라</span>
+                        </div>
+                        <div class="control-item">
+                            <span class="key">마우스 드래그</span>
+                            <span class="desc">카메라 회전</span>
+                        </div>
+                        <div class="control-item">
+                            <span class="key">마우스 휠</span>
+                            <span class="desc">줌 인/아웃</span>
+                        </div>
+                    </div>
+
+                    <div class="control-section">
+                        <h3>기타</h3>
+                        <div class="control-item">
+                            <span class="key">ESC / P</span>
+                            <span class="desc">일시정지</span>
+                        </div>
+                        <div class="control-item">
+                            <span class="key">M</span>
+                            <span class="desc">음소거</span>
+                        </div>
+                        <div class="control-item">
+                            <span class="key">F</span>
+                            <span class="desc">FPS 표시</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 게임 화면 (Babylon.js Canvas) -->
         <div id="game-screen" class="screen">
-            <canvas id="game-canvas"></canvas>
+            <canvas id="renderCanvas"></canvas>
 
             <!-- 게임 HUD -->
             <div id="game-hud">
@@ -138,17 +288,29 @@
                         <span class="hud-label">격추:</span>
                         <span class="hud-value" id="kills">0</span>
                     </div>
+                    <div class="hud-item">
+                        <span class="hud-label">FPS:</span>
+                        <span class="hud-value" id="fps">60</span>
+                    </div>
                 </div>
 
                 <div class="hud-bottom">
                     <div class="weapon-info">
                         <span class="hud-label">무기:</span>
-                        <span class="hud-value" id="weapon-type">레이저</span>
+                        <span class="hud-value" id="weapon-type">플라즈마 레이저</span>
                     </div>
                     <div class="ammo-info">
-                        <span class="hud-label">탄약:</span>
-                        <span class="hud-value" id="ammo">∞</span>
+                        <span class="hud-label">에너지:</span>
+                        <div class="energy-bar">
+                            <div class="energy-fill" id="energy-fill"></div>
+                        </div>
+                        <span class="hud-value" id="energy">100%</span>
                     </div>
+                </div>
+
+                <!-- 미니맵 -->
+                <div class="minimap">
+                    <canvas id="minimap-canvas" width="200" height="200"></canvas>
                 </div>
             </div>
 
@@ -160,6 +322,7 @@
                         <p>최종 점수: <span id="final-score">0</span></p>
                         <p>격추 수: <span id="final-kills">0</span></p>
                         <p>최고 웨이브: <span id="final-wave">0</span></p>
+                        <p>생존 시간: <span id="survival-time">0</span>초</p>
                     </div>
                     <div class="game-over-buttons">
                         <button class="menu-btn" onclick="game.restart()">다시 시작</button>
@@ -177,22 +340,12 @@
                         <button class="menu-btn" onclick="game.restart()">재시작</button>
                         <button class="menu-btn" onclick="game.showMainMenu()">메인 메뉴</button>
                     </div>
-                    <div class="controls-info">
-                        <h3>조작법</h3>
-                        <p><strong>플레이어 1:</strong></p>
-                        <p>이동: W, A, S, D 또는 화살표</p>
-                        <p>발사: SPACE 또는 마우스 클릭</p>
-                        <p><strong>플레이어 2 (멀티플레이어):</strong></p>
-                        <p>이동: I, J, K, L</p>
-                        <p>발사: Enter</p>
-                        <p><strong>기타:</strong></p>
-                        <p>일시정지: ESC 또는 P</p>
-                    </div>
                 </div>
             </div>
         </div>
     </div>
 
+    <!-- Babylon.js 게임 엔진 -->
     <script src="game.js"></script>
 </body>
 </html>
