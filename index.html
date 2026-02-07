@@ -3,338 +3,262 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Space Drone Wars 2026 - Babylon.js 3D Edition</title>
+    <title>Space Drone Wars 2026 - AAA Edition</title>
     <link rel="stylesheet" href="styles.css">
 
-    <!-- Babylon.js CDN -->
+    <!-- Babylon.js Core -->
     <script src="https://cdn.babylonjs.com/babylon.js"></script>
     <script src="https://cdn.babylonjs.com/loaders/babylonjs.loaders.min.js"></script>
     <script src="https://cdn.babylonjs.com/gui/babylon.gui.min.js"></script>
+    <script src="https://cdn.babylonjs.com/materialsLibrary/babylonjs.materials.min.js"></script>
+    <script src="https://cdn.babylonjs.com/proceduralTexturesLibrary/babylonjs.proceduralTextures.min.js"></script>
 </head>
 <body>
     <div id="game-container">
         <!-- 로딩 화면 -->
         <div id="loading-screen" class="screen active">
             <div class="loading-content">
-                <div class="loading-spinner"></div>
-                <h1 class="game-title">SPACE DRONE WARS 2026</h1>
-                <p class="subtitle">Babylon.js 3D Edition</p>
-                <div class="loading-bar">
-                    <div class="loading-progress" id="loading-progress"></div>
+                <div class="logo-container">
+                    <div class="logo-glow"></div>
+                    <h1 class="game-logo">SPACE DRONE WARS</h1>
+                    <p class="game-tagline">2026 AAA Edition</p>
                 </div>
-                <p class="loading-text" id="loading-text">시스템 초기화 중...</p>
-                <div class="tech-badges">
-                    <span class="badge">Babylon.js 3D</span>
-                    <span class="badge">PBR Materials</span>
-                    <span class="badge">Physics Engine</span>
-                    <span class="badge">Spatial Audio</span>
+
+                <div class="loading-spinner"></div>
+
+                <div class="loading-bar-container">
+                    <div class="loading-bar">
+                        <div class="loading-progress" id="loading-progress"></div>
+                    </div>
+                    <p class="loading-text" id="loading-text">초기화 중...</p>
+                    <p class="loading-percent" id="loading-percent">0%</p>
+                </div>
+
+                <div class="tech-showcase">
+                    <div class="tech-badge"><span class="badge-icon">🎨</span> Babylon.js 6.0</div>
+                    <div class="tech-badge"><span class="badge-icon">⚡</span> WebGL 2.0</div>
+                    <div class="tech-badge"><span class="badge-icon">🎵</span> 3D Audio</div>
+                    <div class="tech-badge"><span class="badge-icon">🤖</span> Advanced AI</div>
                 </div>
             </div>
         </div>
 
         <!-- 메인 메뉴 -->
         <div id="main-menu" class="screen">
-            <div class="title-container">
-                <h1 class="game-title">SPACE DRONE WARS</h1>
-                <p class="subtitle">2026 Babylon.js 3D 우주 전투 시뮬레이터</p>
-                <div class="tech-badges">
-                    <span class="badge">3D Graphics</span>
-                    <span class="badge">Real-time Physics</span>
-                    <span class="badge">AI-Powered</span>
-                    <span class="badge">Multiplayer</span>
-                </div>
-            </div>
+            <div class="menu-background"></div>
 
-            <div class="menu-buttons">
-                <button class="menu-btn" onclick="game.startSinglePlayer()">
-                    <span class="btn-icon">🚀</span>
-                    <span>싱글 플레이어</span>
-                </button>
-                <button class="menu-btn" onclick="game.startMultiplayer()">
-                    <span class="btn-icon">👥</span>
-                    <span>멀티플레이어 (로컬)</span>
-                </button>
-                <button class="menu-btn" onclick="game.showSettings()">
-                    <span class="btn-icon">⚙️</span>
-                    <span>설정</span>
-                </button>
-                <button class="menu-btn" onclick="game.showTrends()">
-                    <span class="btn-icon">📊</span>
-                    <span>2026 게임 트렌드 정보</span>
-                </button>
-                <button class="menu-btn" onclick="game.showControls()">
-                    <span class="btn-icon">🎮</span>
-                    <span>조작법</span>
-                </button>
-            </div>
-
-            <div class="stats-preview">
-                <div class="stat-item">
-                    <div class="stat-label">최고 점수</div>
-                    <div class="stat-value" id="high-score">0</div>
-                </div>
-                <div class="stat-item">
-                    <div class="stat-label">총 격추</div>
-                    <div class="stat-value" id="total-kills">0</div>
-                </div>
-                <div class="stat-item">
-                    <div class="stat-label">플레이 시간</div>
-                    <div class="stat-value" id="play-time">0h</div>
-                </div>
-                <div class="stat-item">
-                    <div class="stat-label">최고 웨이브</div>
-                    <div class="stat-value" id="best-wave">0</div>
-                </div>
-            </div>
-        </div>
-
-        <!-- 게임 트렌드 정보 화면 -->
-        <div id="trends-screen" class="screen">
-            <div class="trends-container">
-                <h2>🎮 2026년 게임 개발 트렌드 - Babylon.js 적용</h2>
-                <button class="back-btn" onclick="game.showMainMenu()">← 메인 메뉴</button>
-
-                <div class="trends-content">
-                    <div class="trend-card highlight">
-                        <h3>🎨 3D 그래픽 혁명</h3>
-                        <p><strong>Babylon.js</strong>는 웹 기반 3D 게임 엔진으로, WebGL을 활용한 고품질 3D 렌더링을 제공합니다. PBR(Physically Based Rendering) 머티리얼로 실사 같은 그래픽을 구현했습니다.</p>
-                        <div class="tech-used">✓ Babylon.js 6.0 엔진</div>
-                    </div>
-
-                    <div class="trend-card">
-                        <h3>🤖 AI 기술 혁명</h3>
-                        <p>97%의 게임 개발자가 AI를 활용하여 에셋 생성, 플레이테스트, 현지화를 가속화하고 있습니다. 이 게임은 3D 공간에서 작동하는 고급 AI 알고리즘을 구현했습니다.</p>
-                        <div class="tech-used">✓ 3D 공간 AI 행동 트리</div>
-                    </div>
-
-                    <div class="trend-card">
-                        <h3>⚡ 물리 엔진</h3>
-                        <p>Babylon.js의 내장 물리 엔진(Ammo.js/Cannon.js)을 사용하여 실제와 같은 충돌, 중력, 관성을 시뮬레이션합니다.</p>
-                        <div class="tech-used">✓ Babylon.js Physics</div>
-                    </div>
-
-                    <div class="trend-card">
-                        <h3>☁️ 클라우드 게이밍</h3>
-                        <p>클라우드 게이밍 시장은 2025년부터 2030년까지 1,207% 성장할 것으로 예상되며, 183억 달러 규모에 달할 것입니다. 브라우저 기반으로 즉시 플레이 가능합니다.</p>
-                        <div class="tech-used">✓ 웹 기반 3D</div>
-                    </div>
-
-                    <div class="trend-card">
-                        <h3>🎯 크로스 플랫폼</h3>
-                        <p>WebGL 기반으로 모든 플랫폼에서 동일한 3D 경험을 제공합니다. PC, 모바일, 태블릿 모두 지원합니다.</p>
-                        <div class="tech-used">✓ WebGL 호환</div>
-                    </div>
-
-                    <div class="trend-card">
-                        <h3>🔊 공간 오디오</h3>
-                        <p>Babylon.js의 3D 오디오 시스템으로 실제 공간감을 재현합니다. 소리의 방향과 거리를 느낄 수 있습니다.</p>
-                        <div class="tech-used">✓ 3D Spatial Audio</div>
-                    </div>
+            <div class="menu-content">
+                <div class="logo-section">
+                    <h1 class="main-title">SPACE DRONE WARS</h1>
+                    <p class="main-subtitle">차세대 우주 전투 시뮬레이터</p>
+                    <div class="version-badge">v2.0 AAA Edition</div>
                 </div>
 
-                <div class="trends-footer">
-                    <p><strong>이 게임의 Babylon.js 기술 스택:</strong></p>
-                    <ul>
-                        <li><strong>Babylon.js 6.0</strong> - 최신 3D 웹 엔진</li>
-                        <li><strong>PBR Materials</strong> - 물리 기반 렌더링</li>
-                        <li><strong>Shadow Generator</strong> - 실시간 그림자</li>
-                        <li><strong>Particle Systems</strong> - GPU 가속 파티클</li>
-                        <li><strong>Physics Engine</strong> - 실제 물리 시뮬레이션</li>
-                        <li><strong>3D Audio</strong> - 공간 오디오 시스템</li>
-                        <li><strong>Post-Processing</strong> - 글로우, 블룸 효과</li>
-                        <li><strong>Scene Optimizer</strong> - 자동 성능 최적화</li>
-                    </ul>
+                <div class="main-menu-buttons">
+                    <button class="main-btn primary" onclick="game.showModeSelect()">
+                        <span class="btn-icon">🚀</span>
+                        <div class="btn-content">
+                            <span class="btn-title">플레이</span>
+                            <span class="btn-desc">게임 시작</span>
+                        </div>
+                    </button>
+
+                    <button class="main-btn" onclick="game.showUpgrades()">
+                        <span class="btn-icon">⚙️</span>
+                        <div class="btn-content">
+                            <span class="btn-title">업그레이드</span>
+                            <span class="btn-desc">드론 강화</span>
+                        </div>
+                    </button>
+
+                    <button class="main-btn" onclick="game.showAchievements()">
+                        <span class="btn-icon">🏆</span>
+                        <div class="btn-content">
+                            <span class="btn-title">업적</span>
+                            <span class="btn-desc">도전 과제</span>
+                        </div>
+                    </button>
+
+                    <button class="main-btn" onclick="game.showSettings()">
+                        <span class="btn-icon">🎮</span>
+                        <div class="btn-content">
+                            <span class="btn-title">설정</span>
+                            <span class="btn-desc">옵션</span>
+                        </div>
+                    </button>
                 </div>
-            </div>
-        </div>
 
-        <!-- 조작법 화면 -->
-        <div id="controls-screen" class="screen">
-            <div class="controls-container">
-                <h2>🎮 조작법</h2>
-                <button class="back-btn" onclick="game.showMainMenu()">← 메인 메뉴</button>
-
-                <div class="controls-grid">
-                    <div class="control-section">
-                        <h3>플레이어 1 조작</h3>
-                        <div class="control-item">
-                            <span class="key">W / ↑</span>
-                            <span class="desc">전진</span>
-                        </div>
-                        <div class="control-item">
-                            <span class="key">S / ↓</span>
-                            <span class="desc">후진</span>
-                        </div>
-                        <div class="control-item">
-                            <span class="key">A / ←</span>
-                            <span class="desc">좌회전</span>
-                        </div>
-                        <div class="control-item">
-                            <span class="key">D / →</span>
-                            <span class="desc">우회전</span>
-                        </div>
-                        <div class="control-item">
-                            <span class="key">Q</span>
-                            <span class="desc">상승</span>
-                        </div>
-                        <div class="control-item">
-                            <span class="key">E</span>
-                            <span class="desc">하강</span>
-                        </div>
-                        <div class="control-item">
-                            <span class="key">SPACE</span>
-                            <span class="desc">발사</span>
+                <div class="player-stats">
+                    <div class="stat-card">
+                        <div class="stat-icon">💎</div>
+                        <div class="stat-info">
+                            <div class="stat-value" id="player-credits">0</div>
+                            <div class="stat-label">크레딧</div>
                         </div>
                     </div>
-
-                    <div class="control-section">
-                        <h3>플레이어 2 조작</h3>
-                        <div class="control-item">
-                            <span class="key">I</span>
-                            <span class="desc">전진</span>
-                        </div>
-                        <div class="control-item">
-                            <span class="key">K</span>
-                            <span class="desc">후진</span>
-                        </div>
-                        <div class="control-item">
-                            <span class="key">J</span>
-                            <span class="desc">좌회전</span>
-                        </div>
-                        <div class="control-item">
-                            <span class="key">L</span>
-                            <span class="desc">우회전</span>
-                        </div>
-                        <div class="control-item">
-                            <span class="key">U</span>
-                            <span class="desc">상승</span>
-                        </div>
-                        <div class="control-item">
-                            <span class="key">O</span>
-                            <span class="desc">하강</span>
-                        </div>
-                        <div class="control-item">
-                            <span class="key">ENTER</span>
-                            <span class="desc">발사</span>
+                    <div class="stat-card">
+                        <div class="stat-icon">⭐</div>
+                        <div class="stat-info">
+                            <div class="stat-value" id="player-level">1</div>
+                            <div class="stat-label">레벨</div>
                         </div>
                     </div>
-
-                    <div class="control-section">
-                        <h3>카메라 조작</h3>
-                        <div class="control-item">
-                            <span class="key">1</span>
-                            <span class="desc">추격 카메라</span>
-                        </div>
-                        <div class="control-item">
-                            <span class="key">2</span>
-                            <span class="desc">자유 카메라</span>
-                        </div>
-                        <div class="control-item">
-                            <span class="key">3</span>
-                            <span class="desc">탑뷰 카메라</span>
-                        </div>
-                        <div class="control-item">
-                            <span class="key">마우스 드래그</span>
-                            <span class="desc">카메라 회전</span>
-                        </div>
-                        <div class="control-item">
-                            <span class="key">마우스 휠</span>
-                            <span class="desc">줌 인/아웃</span>
-                        </div>
-                    </div>
-
-                    <div class="control-section">
-                        <h3>기타</h3>
-                        <div class="control-item">
-                            <span class="key">ESC / P</span>
-                            <span class="desc">일시정지</span>
-                        </div>
-                        <div class="control-item">
-                            <span class="key">M</span>
-                            <span class="desc">음소거</span>
-                        </div>
-                        <div class="control-item">
-                            <span class="key">F</span>
-                            <span class="desc">FPS 표시</span>
+                    <div class="stat-card">
+                        <div class="stat-icon">🎯</div>
+                        <div class="stat-info">
+                            <div class="stat-value" id="total-kills">0</div>
+                            <div class="stat-label">총 격추</div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- 게임 화면 (Babylon.js Canvas) -->
+        <!-- 게임 모드 선택 -->
+        <div id="mode-select" class="screen">
+            <div class="screen-header">
+                <h2>게임 모드 선택</h2>
+                <button class="back-btn" onclick="game.showMainMenu()">← 돌아가기</button>
+            </div>
+
+            <div class="mode-grid">
+                <div class="mode-card" onclick="game.startStoryMode()">
+                    <div class="mode-icon">📖</div>
+                    <h3>스토리 모드</h3>
+                    <p>우주 연합의 일원이 되어 은하계를 구하세요</p>
+                    <div class="mode-badge">권장</div>
+                </div>
+
+                <div class="mode-card" onclick="game.startSurvivalMode()">
+                    <div class="mode-icon">⚔️</div>
+                    <h3>서바이벌</h3>
+                    <p>무한 웨이브에서 최대한 오래 살아남으세요</p>
+                </div>
+
+                <div class="mode-card" onclick="game.startBossRush()">
+                    <div class="mode-icon">👹</div>
+                    <h3>보스 러시</h3>
+                    <p>연속된 보스전에 도전하세요</p>
+                    <div class="mode-badge">고난이도</div>
+                </div>
+
+                <div class="mode-card" onclick="game.startMultiplayer()">
+                    <div class="mode-icon">👥</div>
+                    <h3>협동 플레이</h3>
+                    <p>친구와 함께 플레이하세요</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 게임 화면 -->
         <div id="game-screen" class="screen">
             <canvas id="renderCanvas"></canvas>
 
             <!-- 게임 HUD -->
             <div id="game-hud">
+                <!-- 상단 HUD -->
                 <div class="hud-top">
-                    <div class="hud-item">
-                        <span class="hud-label">점수:</span>
-                        <span class="hud-value" id="score">0</span>
-                    </div>
-                    <div class="hud-item">
-                        <span class="hud-label">체력:</span>
-                        <div class="health-bar">
-                            <div class="health-fill" id="health-fill"></div>
+                    <div class="hud-left">
+                        <div class="player-info">
+                            <div class="player-portrait"></div>
+                            <div class="player-bars">
+                                <div class="bar-container">
+                                    <div class="bar health-bar">
+                                        <div class="bar-fill" id="health-fill"></div>
+                                    </div>
+                                    <span class="bar-value" id="health-value">100</span>
+                                </div>
+                                <div class="bar-container">
+                                    <div class="bar shield-bar">
+                                        <div class="bar-fill" id="shield-fill"></div>
+                                    </div>
+                                    <span class="bar-value" id="shield-value">100</span>
+                                </div>
+                                <div class="bar-container">
+                                    <div class="bar energy-bar">
+                                        <div class="bar-fill" id="energy-fill"></div>
+                                    </div>
+                                    <span class="bar-value" id="energy-value">100</span>
+                                </div>
+                            </div>
                         </div>
-                        <span class="hud-value" id="health">100</span>
                     </div>
-                    <div class="hud-item">
-                        <span class="hud-label">웨이브:</span>
-                        <span class="hud-value" id="wave">1</span>
+
+                    <div class="hud-center">
+                        <div class="mission-info">
+                            <div class="mission-text" id="mission-text">적 드론 섬멸</div>
+                            <div class="wave-info">
+                                <span>웨이브</span>
+                                <span class="wave-number" id="wave-number">1</span>
+                            </div>
+                        </div>
+                        <div class="enemy-counter" id="enemy-counter">적: 0</div>
                     </div>
-                    <div class="hud-item">
-                        <span class="hud-label">격추:</span>
-                        <span class="hud-value" id="kills">0</span>
-                    </div>
-                    <div class="hud-item">
-                        <span class="hud-label">FPS:</span>
-                        <span class="hud-value" id="fps">60</span>
+
+                    <div class="hud-right">
+                        <div class="score-display">
+                            <div class="score-label">점수</div>
+                            <div class="score-value" id="score-value">0</div>
+                            <div class="combo-display" id="combo-display">COMBO x1</div>
+                        </div>
                     </div>
                 </div>
 
+                <!-- 하단 HUD -->
                 <div class="hud-bottom">
-                    <div class="weapon-info">
-                        <span class="hud-label">무기:</span>
-                        <span class="hud-value" id="weapon-type">플라즈마 레이저</span>
-                    </div>
-                    <div class="ammo-info">
-                        <span class="hud-label">에너지:</span>
-                        <div class="energy-bar">
-                            <div class="energy-fill" id="energy-fill"></div>
+                    <div class="weapon-panel">
+                        <div class="weapon-slot active" id="weapon-1">
+                            <div class="weapon-icon">🔫</div>
+                            <div class="weapon-name">레이저</div>
+                            <div class="weapon-ammo">∞</div>
                         </div>
-                        <span class="hud-value" id="energy">100%</span>
+                        <div class="weapon-slot" id="weapon-2">
+                            <div class="weapon-icon">🚀</div>
+                            <div class="weapon-name">미사일</div>
+                            <div class="weapon-ammo" id="missile-ammo">12</div>
+                        </div>
+                        <div class="weapon-slot" id="weapon-3">
+                            <div class="weapon-icon">⚡</div>
+                            <div class="weapon-name">레일건</div>
+                            <div class="weapon-ammo" id="railgun-ammo">5</div>
+                        </div>
+                    </div>
+
+                    <div class="ability-panel">
+                        <div class="ability-slot" id="ability-1">
+                            <div class="ability-icon">🛡️</div>
+                            <div class="ability-cooldown" id="shield-cooldown"></div>
+                        </div>
+                        <div class="ability-slot" id="ability-2">
+                            <div class="ability-icon">💨</div>
+                            <div class="ability-cooldown" id="boost-cooldown"></div>
+                        </div>
+                        <div class="ability-slot" id="ability-3">
+                            <div class="ability-icon">💣</div>
+                            <div class="ability-cooldown" id="bomb-cooldown"></div>
+                        </div>
                     </div>
                 </div>
 
                 <!-- 미니맵 -->
-                <div class="minimap">
+                <div class="minimap-container">
                     <canvas id="minimap-canvas" width="200" height="200"></canvas>
+                    <div class="minimap-label">전술 지도</div>
                 </div>
+
+                <!-- 알림 -->
+                <div class="notification-area" id="notification-area"></div>
             </div>
 
-            <!-- 게임 오버 패널 -->
-            <div id="game-over" class="overlay hidden">
-                <div class="game-over-panel">
-                    <h2>게임 오버</h2>
-                    <div class="final-stats">
-                        <p>최종 점수: <span id="final-score">0</span></p>
-                        <p>격추 수: <span id="final-kills">0</span></p>
-                        <p>최고 웨이브: <span id="final-wave">0</span></p>
-                        <p>생존 시간: <span id="survival-time">0</span>초</p>
-                    </div>
-                    <div class="game-over-buttons">
-                        <button class="menu-btn" onclick="game.restart()">다시 시작</button>
-                        <button class="menu-btn" onclick="game.showMainMenu()">메인 메뉴</button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- 일시정지 패널 -->
+            <!-- 일시정지 메뉴 -->
             <div id="pause-menu" class="overlay hidden">
                 <div class="pause-panel">
                     <h2>일시정지</h2>
+                    <div class="pause-stats">
+                        <p>생존 시간: <span id="pause-time">0:00</span></p>
+                        <p>격추 수: <span id="pause-kills">0</span></p>
+                        <p>정확도: <span id="pause-accuracy">0%</span></p>
+                    </div>
                     <div class="pause-buttons">
                         <button class="menu-btn" onclick="game.resume()">계속하기</button>
                         <button class="menu-btn" onclick="game.restart()">재시작</button>
@@ -342,10 +266,154 @@
                     </div>
                 </div>
             </div>
+
+            <!-- 게임 오버 -->
+            <div id="game-over" class="overlay hidden">
+                <div class="game-over-panel">
+                    <h2 class="game-over-title">미션 실패</h2>
+                    <div class="final-stats">
+                        <div class="stat-row">
+                            <span>최종 점수</span>
+                            <span class="stat-highlight" id="final-score">0</span>
+                        </div>
+                        <div class="stat-row">
+                            <span>격추 수</span>
+                            <span id="final-kills">0</span>
+                        </div>
+                        <div class="stat-row">
+                            <span>최고 콤보</span>
+                            <span id="final-combo">0</span>
+                        </div>
+                        <div class="stat-row">
+                            <span>획득 크레딧</span>
+                            <span class="credits-earned" id="credits-earned">+0</span>
+                        </div>
+                    </div>
+                    <div class="game-over-buttons">
+                        <button class="menu-btn primary" onclick="game.restart()">다시 도전</button>
+                        <button class="menu-btn" onclick="game.showMainMenu()">메인 메뉴</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 승리 화면 -->
+            <div id="victory-screen" class="overlay hidden">
+                <div class="victory-panel">
+                    <h2 class="victory-title">미션 성공!</h2>
+                    <div class="victory-stats">
+                        <div class="rank-display">
+                            <div class="rank-letter" id="mission-rank">S</div>
+                            <div class="rank-stars" id="rank-stars">★★★</div>
+                        </div>
+                        <div class="reward-display">
+                            <p>보상</p>
+                            <div class="reward-item">
+                                <span>💎</span>
+                                <span id="reward-credits">+1000</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="victory-buttons">
+                        <button class="menu-btn primary" onclick="game.nextMission()">다음 미션</button>
+                        <button class="menu-btn" onclick="game.showMainMenu()">메인 메뉴</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 업그레이드 화면 -->
+        <div id="upgrades-screen" class="screen">
+            <div class="screen-header">
+                <h2>드론 업그레이드</h2>
+                <button class="back-btn" onclick="game.showMainMenu()">← 돌아가기</button>
+                <div class="credits-display">
+                    <span class="credits-icon">💎</span>
+                    <span id="upgrade-credits">0</span>
+                </div>
+            </div>
+
+            <div class="upgrade-grid" id="upgrade-grid">
+                <!-- JavaScript로 동적 생성 -->
+            </div>
+        </div>
+
+        <!-- 업적 화면 -->
+        <div id="achievements-screen" class="screen">
+            <div class="screen-header">
+                <h2>업적</h2>
+                <button class="back-btn" onclick="game.showMainMenu()">← 돌아가기</button>
+            </div>
+
+            <div class="achievements-grid" id="achievements-grid">
+                <!-- JavaScript로 동적 생성 -->
+            </div>
+        </div>
+
+        <!-- 설정 화면 -->
+        <div id="settings-screen" class="screen">
+            <div class="screen-header">
+                <h2>설정</h2>
+                <button class="back-btn" onclick="game.showMainMenu()">← 돌아가기</button>
+            </div>
+
+            <div class="settings-content">
+                <div class="settings-section">
+                    <h3>그래픽</h3>
+                    <div class="setting-item">
+                        <label>그래픽 품질</label>
+                        <select id="graphics-quality">
+                            <option value="low">낮음</option>
+                            <option value="medium">중간</option>
+                            <option value="high" selected>높음</option>
+                            <option value="ultra">최고</option>
+                        </select>
+                    </div>
+                    <div class="setting-item">
+                        <label>포스트 프로세싱</label>
+                        <input type="checkbox" id="post-processing" checked>
+                    </div>
+                    <div class="setting-item">
+                        <label>파티클 밀도</label>
+                        <input type="range" id="particle-density" min="50" max="200" value="100">
+                    </div>
+                </div>
+
+                <div class="settings-section">
+                    <h3>오디오</h3>
+                    <div class="setting-item">
+                        <label>마스터 볼륨</label>
+                        <input type="range" id="master-volume" min="0" max="100" value="80">
+                    </div>
+                    <div class="setting-item">
+                        <label>음악 볼륨</label>
+                        <input type="range" id="music-volume" min="0" max="100" value="60">
+                    </div>
+                    <div class="setting-item">
+                        <label>효과음 볼륨</label>
+                        <input type="range" id="sfx-volume" min="0" max="100" value="80">
+                    </div>
+                </div>
+
+                <div class="settings-section">
+                    <h3>게임플레이</h3>
+                    <div class="setting-item">
+                        <label>난이도</label>
+                        <select id="difficulty">
+                            <option value="easy">쉬움</option>
+                            <option value="normal" selected>보통</option>
+                            <option value="hard">어려움</option>
+                            <option value="expert">전문가</option>
+                        </select>
+                    </div>
+                    <div class="setting-item">
+                        <label>자동 조준 보조</label>
+                        <input type="checkbox" id="aim-assist">
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
-    <!-- Babylon.js 게임 엔진 -->
     <script src="game.js"></script>
 </body>
 </html>
