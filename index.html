@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Space Drone Wars 2026 - AAA Edition</title>
+    <link rel="stylesheet" href="styles.css">
+
+    <!-- Babylon.js Core -->
+    <script src="https://cdn.babylonjs.com/babylon.js"></script>
+    <script src="https://cdn.babylonjs.com/loaders/babylonjs.loaders.min.js"></script>
+    <script src="https://cdn.babylonjs.com/gui/babylon.gui.min.js"></script>
+    <script src="https://cdn.babylonjs.com/materialsLibrary/babylonjs.materials.min.js"></script>
+    <script src="https://cdn.babylonjs.com/proceduralTexturesLibrary/babylonjs.proceduralTextures.min.js"></script>
+</head>
+<body>
+    <div id="game-container">
+        <!-- 로딩 화면 -->
+        <div id="loading-screen" class="screen active">
+            <div class="loading-content">
+                <div class="logo-container">
+                    <div class="logo-glow"></div>
+                    <h1 class="game-logo">SPACE DRONE WARS</h1>
+                    <p class="game-tagline">2026 AAA Edition</p>
+                </div>
+
+                <div class="loading-spinner"></div>
+
+                <div class="loading-bar-container">
+                    <div class="loading-bar">
+                        <div class="loading-progress" id="loading-progress"></div>
+                    </div>
+                    <p class="loading-text" id="loading-text">초기화 중...</p>
+                    <p class="loading-percent" id="loading-percent">0%</p>
+                </div>
+
+                <div class="tech-showcase">
+                    <div class="tech-badge"><span class="badge-icon">🎨</span> Babylon.js 6.0</div>
+                    <div class="tech-badge"><span class="badge-icon">⚡</span> WebGL 2.0</div>
+                    <div class="tech-badge"><span class="badge-icon">🎵</span> 3D Audio</div>
+                    <div class="tech-badge"><span class="badge-icon">🤖</span> Advanced AI</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 메인 메뉴 -->
+        <div id="main-menu" class="screen">
+            <div class="menu-background"></div>
+
+            <div class="menu-content">
+                <div class="logo-section">
+                    <h1 class="main-title">SPACE DRONE WARS</h1>
+                    <p class="main-subtitle">차세대 우주 전투 시뮬레이터</p>
+                    <div class="version-badge">v2.0 AAA Edition</div>
+                </div>
+
+                <div class="main-menu-buttons">
+                    <button class="main-btn primary" onclick="game.showModeSelect()">
+                        <span class="btn-icon">🚀</span>
+                        <div class="btn-content">
+                            <span class="btn-title">플레이</span>
+                            <span class="btn-desc">게임 시작</span>
+                        </div>
+                    </button>
+
+                    <button class="main-btn" onclick="game.showUpgrades()">
+                        <span class="btn-icon">⚙️</span>
+                        <div class="btn-content">
+                            <span class="btn-title">업그레이드</span>
+                            <span class="btn-desc">드론 강화</span>
+                        </div>
+                    </button>
+
+                    <button class="main-btn" onclick="game.showAchievements()">
+                        <span class="btn-icon">🏆</span>
+                        <div class="btn-content">
+                            <span class="btn-title">업적</span>
+                            <span class="btn-desc">도전 과제</span>
+                        </div>
+                    </button>
+
+                    <button class="main-btn" onclick="game.showSettings()">
+                        <span class="btn-icon">🎮</span>
+                        <div class="btn-content">
+                            <span class="btn-title">설정</span>
+                            <span class="btn-desc">옵션</span>
+                        </div>
+                    </button>
+                </div>
+
+                <div class="player-stats">
+                    <div class="stat-card">
+                        <div class="stat-icon">💎</div>
+                        <div class="stat-info">
+                            <div class="stat-value" id="player-credits">0</div>
+                            <div class="stat-label">크레딧</div>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">⭐</div>
+                        <div class="stat-info">
+                            <div class="stat-value" id="player-level">1</div>
+                            <div class="stat-label">레벨</div>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">🎯</div>
+                        <div class="stat-info">
+                            <div class="stat-value" id="total-kills">0</div>
+                            <div class="stat-label">총 격추</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 게임 모드 선택 -->
+        <div id="mode-select" class="screen">
+            <div class="screen-header">
+                <h2>게임 모드 선택</h2>
+                <button class="back-btn" onclick="game.showMainMenu()">← 돌아가기</button>
+            </div>
+
+            <div class="mode-grid">
+                <div class="mode-card" onclick="game.startStoryMode()">
+                    <div class="mode-icon">📖</div>
+                    <h3>스토리 모드</h3>
+                    <p>우주 연합의 일원이 되어 은하계를 구하세요</p>
+                    <div class="mode-badge">권장</div>
+                </div>
+
+                <div class="mode-card" onclick="game.startSurvivalMode()">
+                    <div class="mode-icon">⚔️</div>
+                    <h3>서바이벌</h3>
+                    <p>무한 웨이브에서 최대한 오래 살아남으세요</p>
+                </div>
+
+                <div class="mode-card" onclick="game.startBossRush()">
+                    <div class="mode-icon">👹</div>
+                    <h3>보스 러시</h3>
+                    <p>연속된 보스전에 도전하세요</p>
+                    <div class="mode-badge">고난이도</div>
+                </div>
+
+                <div class="mode-card" onclick="game.startMultiplayer()">
+                    <div class="mode-icon">👥</div>
+                    <h3>협동 플레이</h3>
+                    <p>친구와 함께 플레이하세요</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 게임 화면 -->
+        <div id="game-screen" class="screen">
+            <canvas id="renderCanvas"></canvas>
+
+            <!-- 게임 HUD -->
+            <div id="game-hud">
+                <!-- 상단 HUD -->
+                <div class="hud-top">
+                    <div class="hud-left">
+                        <div class="player-info">
+                            <div class="player-portrait"></div>
+                            <div class="player-bars">
+                                <div class="bar-container">
+                                    <div class="bar health-bar">
+                                        <div class="bar-fill" id="health-fill"></div>
+                                    </div>
+                                    <span class="bar-value" id="health-value">100</span>
+                                </div>
+                                <div class="bar-container">
+                                    <div class="bar shield-bar">
+                                        <div class="bar-fill" id="shield-fill"></div>
+                                    </div>
+                                    <span class="bar-value" id="shield-value">100</span>
+                                </div>
+                                <div class="bar-container">
+                                    <div class="bar energy-bar">
+                                        <div class="bar-fill" id="energy-fill"></div>
+                                    </div>
+                                    <span class="bar-value" id="energy-value">100</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="hud-center">
+                        <div class="mission-info">
+                            <div class="mission-text" id="mission-text">적 드론 섬멸</div>
+                            <div class="wave-info">
+                                <span>웨이브</span>
+                                <span class="wave-number" id="wave-number">1</span>
+                            </div>
+                        </div>
+                        <div class="enemy-counter" id="enemy-counter">적: 0</div>
+                    </div>
+
+                    <div class="hud-right">
+                        <div class="score-display">
+                            <div class="score-label">점수</div>
+                            <div class="score-value" id="score-value">0</div>
+                            <div class="combo-display" id="combo-display">COMBO x1</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 하단 HUD -->
+                <div class="hud-bottom">
+                    <div class="weapon-panel">
+                        <div class="weapon-slot active" id="weapon-1">
+                            <div class="weapon-icon">🔫</div>
+                            <div class="weapon-name">레이저</div>
+                            <div class="weapon-ammo">∞</div>
+                        </div>
+                        <div class="weapon-slot" id="weapon-2">
+                            <div class="weapon-icon">🚀</div>
+                            <div class="weapon-name">미사일</div>
+                            <div class="weapon-ammo" id="missile-ammo">12</div>
+                        </div>
+                        <div class="weapon-slot" id="weapon-3">
+                            <div class="weapon-icon">⚡</div>
+                            <div class="weapon-name">레일건</div>
+                            <div class="weapon-ammo" id="railgun-ammo">5</div>
+                        </div>
+                    </div>
+
+                    <div class="ability-panel">
+                        <div class="ability-slot" id="ability-1">
+                            <div class="ability-icon">🛡️</div>
+                            <div class="ability-cooldown" id="shield-cooldown"></div>
+                        </div>
+                        <div class="ability-slot" id="ability-2">
+                            <div class="ability-icon">💨</div>
+                            <div class="ability-cooldown" id="boost-cooldown"></div>
+                        </div>
+                        <div class="ability-slot" id="ability-3">
+                            <div class="ability-icon">💣</div>
+                            <div class="ability-cooldown" id="bomb-cooldown"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 미니맵 -->
+                <div class="minimap-container">
+                    <canvas id="minimap-canvas" width="200" height="200"></canvas>
+                    <div class="minimap-label">전술 지도</div>
+                </div>
+
+                <!-- 알림 -->
+                <div class="notification-area" id="notification-area"></div>
+            </div>
+
+            <!-- 일시정지 메뉴 -->
+            <div id="pause-menu" class="overlay hidden">
+                <div class="pause-panel">
+                    <h2>일시정지</h2>
+                    <div class="pause-stats">
+                        <p>생존 시간: <span id="pause-time">0:00</span></p>
+                        <p>격추 수: <span id="pause-kills">0</span></p>
+                        <p>정확도: <span id="pause-accuracy">0%</span></p>
+                    </div>
+                    <div class="pause-buttons">
+                        <button class="menu-btn" onclick="game.resume()">계속하기</button>
+                        <button class="menu-btn" onclick="game.restart()">재시작</button>
+                        <button class="menu-btn" onclick="game.showMainMenu()">메인 메뉴</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 게임 오버 -->
+            <div id="game-over" class="overlay hidden">
+                <div class="game-over-panel">
+                    <h2 class="game-over-title">미션 실패</h2>
+                    <div class="final-stats">
+                        <div class="stat-row">
+                            <span>최종 점수</span>
+                            <span class="stat-highlight" id="final-score">0</span>
+                        </div>
+                        <div class="stat-row">
+                            <span>격추 수</span>
+                            <span id="final-kills">0</span>
+                        </div>
+                        <div class="stat-row">
+                            <span>최고 콤보</span>
+                            <span id="final-combo">0</span>
+                        </div>
+                        <div class="stat-row">
+                            <span>획득 크레딧</span>
+                            <span class="credits-earned" id="credits-earned">+0</span>
+                        </div>
+                    </div>
+                    <div class="game-over-buttons">
+                        <button class="menu-btn primary" onclick="game.restart()">다시 도전</button>
+                        <button class="menu-btn" onclick="game.showMainMenu()">메인 메뉴</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 승리 화면 -->
+            <div id="victory-screen" class="overlay hidden">
+                <div class="victory-panel">
+                    <h2 class="victory-title">미션 성공!</h2>
+                    <div class="victory-stats">
+                        <div class="rank-display">
+                            <div class="rank-letter" id="mission-rank">S</div>
+                            <div class="rank-stars" id="rank-stars">★★★</div>
+                        </div>
+                        <div class="reward-display">
+                            <p>보상</p>
+                            <div class="reward-item">
+                                <span>💎</span>
+                                <span id="reward-credits">+1000</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="victory-buttons">
+                        <button class="menu-btn primary" onclick="game.nextMission()">다음 미션</button>
+                        <button class="menu-btn" onclick="game.showMainMenu()">메인 메뉴</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 업그레이드 화면 -->
+        <div id="upgrades-screen" class="screen">
+            <div class="screen-header">
+                <h2>드론 업그레이드</h2>
+                <button class="back-btn" onclick="game.showMainMenu()">← 돌아가기</button>
+                <div class="credits-display">
+                    <span class="credits-icon">💎</span>
+                    <span id="upgrade-credits">0</span>
+                </div>
+            </div>
+
+            <div class="upgrade-grid" id="upgrade-grid">
+                <!-- JavaScript로 동적 생성 -->
+            </div>
+        </div>
+
+        <!-- 업적 화면 -->
+        <div id="achievements-screen" class="screen">
+            <div class="screen-header">
+                <h2>업적</h2>
+                <button class="back-btn" onclick="game.showMainMenu()">← 돌아가기</button>
+            </div>
+
+            <div class="achievements-grid" id="achievements-grid">
+                <!-- JavaScript로 동적 생성 -->
+            </div>
+        </div>
+
+        <!-- 설정 화면 -->
+        <div id="settings-screen" class="screen">
+            <div class="screen-header">
+                <h2>설정</h2>
+                <button class="back-btn" onclick="game.showMainMenu()">← 돌아가기</button>
+            </div>
+
+            <div class="settings-content">
+                <div class="settings-section">
+                    <h3>그래픽</h3>
+                    <div class="setting-item">
+                        <label>그래픽 품질</label>
+                        <select id="graphics-quality">
+                            <option value="low">낮음</option>
+                            <option value="medium">중간</option>
+                            <option value="high" selected>높음</option>
+                            <option value="ultra">최고</option>
+                        </select>
+                    </div>
+                    <div class="setting-item">
+                        <label>포스트 프로세싱</label>
+                        <input type="checkbox" id="post-processing" checked>
+                    </div>
+                    <div class="setting-item">
+                        <label>파티클 밀도</label>
+                        <input type="range" id="particle-density" min="50" max="200" value="100">
+                    </div>
+                </div>
+
+                <div class="settings-section">
+                    <h3>오디오</h3>
+                    <div class="setting-item">
+                        <label>마스터 볼륨</label>
+                        <input type="range" id="master-volume" min="0" max="100" value="80">
+                    </div>
+                    <div class="setting-item">
+                        <label>음악 볼륨</label>
+                        <input type="range" id="music-volume" min="0" max="100" value="60">
+                    </div>
+                    <div class="setting-item">
+                        <label>효과음 볼륨</label>
+                        <input type="range" id="sfx-volume" min="0" max="100" value="80">
+                    </div>
+                </div>
+
+                <div class="settings-section">
+                    <h3>게임플레이</h3>
+                    <div class="setting-item">
+                        <label>난이도</label>
+                        <select id="difficulty">
+                            <option value="easy">쉬움</option>
+                            <option value="normal" selected>보통</option>
+                            <option value="hard">어려움</option>
+                            <option value="expert">전문가</option>
+                        </select>
+                    </div>
+                    <div class="setting-item">
+                        <label>자동 조준 보조</label>
+                        <input type="checkbox" id="aim-assist">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="game.js"></script>
+</body>
+</html>
