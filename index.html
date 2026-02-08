@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ROBOT BATTLE ARENA - Ultimate Fighting Championship</title>
+    <title>ROBOT BATTLE ARENA - ULTIMATE EDITION</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;500;700&display=swap');
 
@@ -15,25 +15,18 @@
             --success: #00ff88;
             --bg-dark: #0a0012;
             --bg-darker: #050008;
-            --text-primary: #ffffff;
-            --text-secondary: #cccccc;
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
             font-family: 'Rajdhani', sans-serif;
             background: var(--bg-darker);
-            color: var(--text-primary);
+            color: white;
             overflow: hidden;
             min-height: 100vh;
         }
 
-        /* 애니메이션 배경 */
         .bg-animation {
             position: fixed;
             top: 0;
@@ -42,6 +35,7 @@
             height: 100%;
             z-index: 0;
             pointer-events: none;
+            background: radial-gradient(circle at 50% 50%, #1a0030 0%, #0a0012 50%, #000000 100%);
         }
 
         .bg-grid {
@@ -49,8 +43,8 @@
             width: 100%;
             height: 100%;
             background-image:
-                linear-gradient(rgba(0, 255, 255, 0.03) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(0, 255, 255, 0.03) 1px, transparent 1px);
+                linear-gradient(rgba(0, 255, 255, 0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 255, 255, 0.05) 1px, transparent 1px);
             background-size: 50px 50px;
             animation: gridScroll 20s linear infinite;
         }
@@ -67,7 +61,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: var(--bg-darker);
+            background: linear-gradient(135deg, #0a0012 0%, #1a0030 50%, #0a0012 100%);
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -83,34 +77,41 @@
 
         .loading-logo {
             font-family: 'Orbitron', sans-serif;
-            font-size: 4rem;
+            font-size: 4.5rem;
             font-weight: 900;
-            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            background: linear-gradient(45deg, var(--primary), var(--secondary), var(--accent));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            text-shadow: 0 0 50px rgba(0, 255, 255, 0.5);
             animation: pulse 2s ease-in-out infinite;
+            text-shadow: 0 0 50px rgba(0, 255, 255, 0.5);
         }
 
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); opacity: 1; }
-            50% { transform: scale(1.05); opacity: 0.8; }
+        .loading-subtitle {
+            font-size: 1.5rem;
+            color: var(--primary);
+            margin-top: 1rem;
+            letter-spacing: 0.3em;
         }
 
         .loading-bar {
-            width: 300px;
-            height: 4px;
+            width: 400px;
+            height: 6px;
             background: rgba(255, 255, 255, 0.1);
             margin-top: 30px;
-            border-radius: 2px;
+            border-radius: 3px;
             overflow: hidden;
         }
 
         .loading-progress {
             height: 100%;
-            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            background: linear-gradient(90deg, var(--primary), var(--secondary), var(--accent));
             width: 0%;
             animation: loadProgress 2s ease-out forwards;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.05); opacity: 0.8; }
         }
 
         @keyframes loadProgress {
@@ -135,27 +136,28 @@
 
         .menu-title {
             font-family: 'Orbitron', sans-serif;
-            font-size: 5rem;
+            font-size: 5.5rem;
             font-weight: 900;
             background: linear-gradient(45deg, var(--primary), var(--secondary), var(--accent));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             text-align: center;
-            margin-bottom: 2rem;
+            margin-bottom: 1rem;
             animation: titleGlow 3s ease-in-out infinite;
-            text-shadow: 0 0 50px rgba(0, 255, 255, 0.8);
+            filter: drop-shadow(0 0 30px rgba(0, 255, 255, 0.8));
         }
 
         @keyframes titleGlow {
-            0%, 100% { filter: brightness(1); }
-            50% { filter: brightness(1.3); }
+            0%, 100% { filter: brightness(1) drop-shadow(0 0 30px rgba(0, 255, 255, 0.8)); }
+            50% { filter: brightness(1.3) drop-shadow(0 0 50px rgba(255, 0, 255, 1)); }
         }
 
         .menu-subtitle {
-            font-size: 1.5rem;
-            color: var(--text-secondary);
+            font-size: 1.8rem;
+            color: var(--accent);
             margin-bottom: 4rem;
-            letter-spacing: 0.2em;
+            letter-spacing: 0.3em;
+            text-shadow: 0 0 20px var(--accent);
         }
 
         .menu-buttons {
@@ -165,19 +167,19 @@
         }
 
         .menu-btn {
-            padding: 1.2rem 4rem;
+            padding: 1.3rem 5rem;
             font-family: 'Orbitron', sans-serif;
-            font-size: 1.3rem;
+            font-size: 1.4rem;
             font-weight: 700;
-            background: linear-gradient(135deg, rgba(0, 255, 255, 0.1), rgba(255, 0, 255, 0.1));
-            border: 2px solid var(--primary);
-            color: var(--text-primary);
+            background: linear-gradient(135deg, rgba(0, 255, 255, 0.15), rgba(255, 0, 255, 0.15));
+            border: 3px solid var(--primary);
+            color: white;
             cursor: pointer;
             position: relative;
             overflow: hidden;
             transition: all 0.3s;
             text-transform: uppercase;
-            letter-spacing: 0.1em;
+            letter-spacing: 0.15em;
         }
 
         .menu-btn::before {
@@ -187,322 +189,26 @@
             left: 50%;
             width: 0;
             height: 0;
-            background: radial-gradient(circle, rgba(0, 255, 255, 0.3), transparent);
+            background: radial-gradient(circle, rgba(0, 255, 255, 0.4), transparent);
             transform: translate(-50%, -50%);
             transition: width 0.6s, height 0.6s;
             border-radius: 50%;
         }
 
         .menu-btn:hover::before {
-            width: 400px;
-            height: 400px;
+            width: 500px;
+            height: 500px;
         }
 
         .menu-btn:hover {
             border-color: var(--accent);
-            box-shadow: 0 0 30px rgba(0, 255, 255, 0.6);
-            transform: translateY(-3px);
+            box-shadow: 0 0 40px rgba(255, 255, 0, 0.7);
+            transform: translateY(-5px) scale(1.05);
         }
 
         .menu-btn span {
             position: relative;
             z-index: 1;
-        }
-
-        /* 게임 화면 */
-        #game-container {
-            position: relative;
-            width: 100%;
-            height: 100vh;
-            display: none;
-            flex-direction: column;
-        }
-
-        #game-container.active {
-            display: flex;
-        }
-
-        /* HUD */
-        .game-hud {
-            position: relative;
-            z-index: 100;
-            padding: 1.5rem;
-            background: linear-gradient(180deg, rgba(10, 0, 18, 0.95) 0%, transparent 100%);
-        }
-
-        .hud-top {
-            display: grid;
-            grid-template-columns: 1fr auto 1fr;
-            gap: 2rem;
-            margin-bottom: 1rem;
-        }
-
-        .player-info {
-            display: flex;
-            flex-direction: column;
-            gap: 0.5rem;
-        }
-
-        .player-info.p2 {
-            align-items: flex-end;
-        }
-
-        .player-name {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 1.5rem;
-            font-weight: 700;
-            text-shadow: 0 0 10px currentColor;
-        }
-
-        .health-container {
-            position: relative;
-            width: 100%;
-            max-width: 400px;
-            height: 35px;
-        }
-
-        .health-bg {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.7);
-            border: 2px solid rgba(255, 255, 255, 0.3);
-            border-radius: 5px;
-        }
-
-        .health-fill {
-            position: absolute;
-            left: 0;
-            top: 0;
-            height: 100%;
-            background: linear-gradient(90deg, #ff0044 0%, #ff6600 50%, #ffaa00 100%);
-            transition: width 0.3s ease;
-            border-radius: 3px;
-            box-shadow: inset 0 0 10px rgba(255, 255, 255, 0.3);
-        }
-
-        .health-text {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-family: 'Orbitron', sans-serif;
-            font-weight: 700;
-            font-size: 1.1rem;
-            text-shadow: 0 0 5px rgba(0, 0, 0, 0.8);
-        }
-
-        .energy-bar {
-            width: 100%;
-            max-width: 400px;
-            height: 8px;
-            background: rgba(0, 0, 0, 0.7);
-            border-radius: 4px;
-            overflow: hidden;
-            margin-top: 5px;
-        }
-
-        .energy-fill {
-            height: 100%;
-            background: linear-gradient(90deg, var(--primary), var(--accent));
-            transition: width 0.2s ease;
-            box-shadow: 0 0 10px var(--primary);
-        }
-
-        .combo-display {
-            position: absolute;
-            top: 50%;
-            font-family: 'Orbitron', sans-serif;
-            font-size: 3rem;
-            font-weight: 900;
-            color: var(--accent);
-            text-shadow: 0 0 20px var(--accent);
-            animation: comboPopup 0.5s ease;
-            pointer-events: none;
-        }
-
-        @keyframes comboPopup {
-            0% { transform: scale(0); opacity: 0; }
-            50% { transform: scale(1.2); opacity: 1; }
-            100% { transform: scale(1); opacity: 1; }
-        }
-
-        .center-hud {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .round-timer {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 3.5rem;
-            font-weight: 900;
-            color: var(--accent);
-            text-shadow: 0 0 20px var(--accent);
-        }
-
-        .round-display {
-            font-size: 1.2rem;
-            color: var(--text-secondary);
-            letter-spacing: 0.2em;
-        }
-
-        /* Canvas */
-        #game-canvas {
-            flex: 1;
-            background: linear-gradient(180deg, #0a0012 0%, #1a0030 50%, #0a0012 100%);
-            image-rendering: pixelated;
-        }
-
-        /* 컨트롤 힌트 */
-        .controls-panel {
-            position: absolute;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: rgba(10, 0, 18, 0.9);
-            padding: 1rem 2rem;
-            border: 1px solid var(--primary);
-            border-radius: 10px;
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 2rem;
-            backdrop-filter: blur(10px);
-        }
-
-        .control-set {
-            display: flex;
-            flex-direction: column;
-            gap: 0.3rem;
-        }
-
-        .control-set h4 {
-            color: var(--primary);
-            font-size: 0.9rem;
-            margin-bottom: 0.3rem;
-        }
-
-        .control-set span {
-            font-size: 0.8rem;
-            color: var(--text-secondary);
-        }
-
-        /* 승부 메시지 */
-        .fight-message {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            font-family: 'Orbitron', sans-serif;
-            font-size: 8rem;
-            font-weight: 900;
-            background: linear-gradient(45deg, var(--primary), var(--secondary), var(--accent));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            z-index: 1000;
-            opacity: 0;
-            pointer-events: none;
-            text-shadow: 0 0 50px rgba(255, 255, 255, 0.8);
-        }
-
-        .fight-message.show {
-            animation: fightAnim 2s ease;
-        }
-
-        @keyframes fightAnim {
-            0% { opacity: 0; transform: translate(-50%, -50%) scale(0); }
-            50% { opacity: 1; transform: translate(-50%, -50%) scale(1.2); }
-            70% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
-            100% { opacity: 0; transform: translate(-50%, -50%) scale(0.8); }
-        }
-
-        /* 반응형 */
-        @media (max-width: 768px) {
-            .menu-title { font-size: 3rem; }
-            .menu-btn { padding: 1rem 2rem; font-size: 1rem; }
-            .fight-message { font-size: 4rem; }
-            .controls-panel { grid-template-columns: 1fr; gap: 1rem; }
-        }
-
-        /* 설정 패널 */
-        .settings-panel {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background: rgba(10, 0, 18, 0.98);
-            border: 2px solid var(--primary);
-            border-radius: 15px;
-            padding: 2rem;
-            max-width: 500px;
-            width: 90%;
-            z-index: 2000;
-            display: none;
-        }
-
-        .settings-panel.active {
-            display: block;
-            animation: slideIn 0.3s ease;
-        }
-
-        @keyframes slideIn {
-            from { transform: translate(-50%, -60%); opacity: 0; }
-            to { transform: translate(-50%, -50%); opacity: 1; }
-        }
-
-        .settings-title {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 2rem;
-            margin-bottom: 1.5rem;
-            color: var(--primary);
-        }
-
-        .setting-item {
-            margin-bottom: 1.5rem;
-        }
-
-        .setting-label {
-            display: block;
-            margin-bottom: 0.5rem;
-            color: var(--text-secondary);
-        }
-
-        .setting-slider {
-            width: 100%;
-            height: 6px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 3px;
-            outline: none;
-            -webkit-appearance: none;
-        }
-
-        .setting-slider::-webkit-slider-thumb {
-            -webkit-appearance: none;
-            width: 20px;
-            height: 20px;
-            background: var(--primary);
-            border-radius: 50%;
-            cursor: pointer;
-            box-shadow: 0 0 10px var(--primary);
-        }
-
-        .close-btn {
-            position: absolute;
-            top: 1rem;
-            right: 1rem;
-            background: none;
-            border: none;
-            color: var(--text-secondary);
-            font-size: 1.5rem;
-            cursor: pointer;
-            transition: color 0.3s;
-        }
-
-        .close-btn:hover {
-            color: var(--danger);
         }
 
         /* 캐릭터 선택 화면 */
@@ -524,30 +230,31 @@
 
         .select-title {
             font-family: 'Orbitron', sans-serif;
-            font-size: 3.5rem;
+            font-size: 4rem;
             font-weight: 900;
             background: linear-gradient(45deg, var(--primary), var(--secondary));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             margin-bottom: 3rem;
+            text-shadow: 0 0 30px rgba(0, 255, 255, 0.8);
         }
 
         .character-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 2rem;
-            max-width: 1400px;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2.5rem;
+            max-width: 1600px;
             width: 100%;
             margin-bottom: 2rem;
         }
 
         .character-card {
-            background: linear-gradient(135deg, rgba(0, 255, 255, 0.05), rgba(255, 0, 255, 0.05));
-            border: 2px solid rgba(0, 255, 255, 0.3);
-            border-radius: 15px;
-            padding: 1.5rem;
+            background: linear-gradient(135deg, rgba(0, 255, 255, 0.08), rgba(255, 0, 255, 0.08));
+            border: 3px solid rgba(0, 255, 255, 0.4);
+            border-radius: 20px;
+            padding: 2rem;
             cursor: pointer;
-            transition: all 0.3s;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             position: relative;
             overflow: hidden;
         }
@@ -559,15 +266,15 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: radial-gradient(circle at 50% 0%, rgba(0, 255, 255, 0.1), transparent 70%);
+            background: radial-gradient(circle at 50% 0%, rgba(0, 255, 255, 0.15), transparent 70%);
             opacity: 0;
-            transition: opacity 0.3s;
+            transition: opacity 0.4s;
         }
 
         .character-card:hover {
             border-color: var(--primary);
-            box-shadow: 0 0 30px rgba(0, 255, 255, 0.4);
-            transform: translateY(-10px);
+            box-shadow: 0 0 50px rgba(0, 255, 255, 0.6);
+            transform: translateY(-15px) scale(1.05);
         }
 
         .character-card:hover::before {
@@ -576,160 +283,623 @@
 
         .character-card.selected {
             border-color: var(--accent);
-            box-shadow: 0 0 40px rgba(255, 255, 0, 0.6);
+            box-shadow: 0 0 60px rgba(255, 255, 0, 0.8);
+            background: linear-gradient(135deg, rgba(255, 255, 0, 0.15), rgba(255, 0, 255, 0.15));
         }
 
         .char-portrait {
             width: 100%;
-            height: 200px;
-            margin-bottom: 1rem;
-            border-radius: 10px;
+            height: 250px;
+            margin-bottom: 1.5rem;
+            border-radius: 15px;
             position: relative;
             overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 6rem;
+            box-shadow: inset 0 0 60px rgba(0, 0, 0, 0.5);
         }
 
         .striker-portrait {
-            background: linear-gradient(135deg, #ff0044, #ff6600);
-            box-shadow: inset 0 0 50px rgba(255, 0, 68, 0.5);
+            background: linear-gradient(135deg, #ff0044 0%, #ff6600 100%);
         }
 
         .tank-portrait {
-            background: linear-gradient(135deg, #00ff88, #00ffff);
-            box-shadow: inset 0 0 50px rgba(0, 255, 136, 0.5);
+            background: linear-gradient(135deg, #00ff88 0%, #00ffff 100%);
         }
 
         .blaster-portrait {
-            background: linear-gradient(135deg, #ff00ff, #aa00ff);
-            box-shadow: inset 0 0 50px rgba(255, 0, 255, 0.5);
+            background: linear-gradient(135deg, #ff00ff 0%, #aa00ff 100%);
         }
 
         .balanced-portrait {
-            background: linear-gradient(135deg, #ffff00, #ff9900);
-            box-shadow: inset 0 0 50px rgba(255, 255, 0, 0.5);
+            background: linear-gradient(135deg, #ffff00 0%, #ff9900 100%);
         }
 
         .character-card h3 {
             font-family: 'Orbitron', sans-serif;
-            font-size: 1.8rem;
+            font-size: 2rem;
             color: var(--primary);
-            margin-bottom: 1rem;
+            margin-bottom: 1.2rem;
             text-align: center;
+            text-shadow: 0 0 15px var(--primary);
         }
 
         .char-stats {
             display: flex;
             flex-direction: column;
-            gap: 0.5rem;
-            margin-bottom: 1rem;
+            gap: 0.7rem;
+            margin-bottom: 1.2rem;
         }
 
         .stat-bar {
             display: flex;
             align-items: center;
-            gap: 0.5rem;
+            gap: 0.7rem;
         }
 
         .stat-bar span {
-            min-width: 60px;
-            font-size: 0.8rem;
-            color: var(--text-secondary);
+            min-width: 70px;
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.7);
         }
 
         .stat-fill {
             flex: 1;
-            height: 6px;
+            height: 8px;
             background: linear-gradient(90deg, var(--primary), var(--accent));
-            border-radius: 3px;
-            box-shadow: 0 0 10px var(--primary);
+            border-radius: 4px;
+            box-shadow: 0 0 15px var(--primary);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-fill::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.6), transparent);
+            animation: shimmer 2s infinite;
+        }
+
+        @keyframes shimmer {
+            to { left: 100%; }
         }
 
         .char-desc {
             text-align: center;
-            color: var(--text-secondary);
-            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 1rem;
+            line-height: 1.5;
         }
 
-        .back-btn {
-            padding: 1rem 3rem;
+        .char-ability {
+            text-align: center;
+            color: var(--accent);
+            font-size: 0.85rem;
+            margin-top: 0.5rem;
+            font-weight: 700;
+        }
+
+        /* 게임 화면 */
+        #game-container {
+            position: relative;
+            width: 100%;
+            height: 100vh;
+            display: none;
+            flex-direction: column;
+        }
+
+        #game-container.active {
+            display: flex;
+        }
+
+        /* HUD */
+        .game-hud {
+            position: relative;
+            z-index: 100;
+            padding: 1.5rem 2rem;
+            background: linear-gradient(180deg, rgba(10, 0, 18, 0.95) 0%, transparent 100%);
+        }
+
+        .hud-top {
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
+            gap: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .player-info {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .player-info.p2 {
+            align-items: flex-end;
+        }
+
+        .player-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .player-info.p2 .player-header {
+            flex-direction: row-reverse;
+        }
+
+        .player-portrait {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            border: 3px solid var(--primary);
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            box-shadow: 0 0 20px var(--primary);
+        }
+
+        .player-name {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.6rem;
+            font-weight: 700;
+            text-shadow: 0 0 15px currentColor;
+        }
+
+        .health-container {
+            position: relative;
+            width: 100%;
+            max-width: 450px;
+            height: 40px;
+        }
+
+        .health-bg {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 8px;
+        }
+
+        .health-fill {
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            background: linear-gradient(90deg, #ff0044 0%, #ff6600 50%, #ffaa00 100%);
+            transition: width 0.3s ease;
+            border-radius: 5px;
+            box-shadow: inset 0 0 15px rgba(255, 255, 255, 0.4), 0 0 20px rgba(255, 100, 0, 0.6);
+        }
+
+        .health-text {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 700;
+            font-size: 1.2rem;
+            text-shadow: 0 0 10px rgba(0, 0, 0, 1);
+        }
+
+        .energy-bar {
+            width: 100%;
+            max-width: 450px;
+            height: 10px;
+            background: rgba(0, 0, 0, 0.8);
+            border-radius: 5px;
+            overflow: hidden;
+            margin-top: 8px;
+            border: 2px solid rgba(0, 255, 255, 0.3);
+        }
+
+        .energy-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            transition: width 0.2s ease;
+            box-shadow: 0 0 15px var(--primary);
+        }
+
+        /* 슈퍼 게이지 */
+        .super-gauge {
+            width: 100%;
+            max-width: 450px;
+            height: 15px;
+            background: rgba(0, 0, 0, 0.8);
+            border-radius: 8px;
+            overflow: hidden;
+            margin-top: 8px;
+            border: 3px solid rgba(255, 0, 255, 0.5);
+            box-shadow: 0 0 20px rgba(255, 0, 255, 0.4);
+        }
+
+        .super-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #ff00ff 0%, #ffff00 100%);
+            transition: width 0.3s ease;
+            box-shadow: 0 0 25px rgba(255, 0, 255, 0.8);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .super-fill::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.8), transparent);
+            animation: superShimmer 1s infinite;
+        }
+
+        @keyframes superShimmer {
+            to { left: 200%; }
+        }
+
+        .super-ready {
+            animation: superPulse 0.5s infinite;
+        }
+
+        @keyframes superPulse {
+            0%, 100% { box-shadow: 0 0 25px rgba(255, 0, 255, 0.8); }
+            50% { box-shadow: 0 0 40px rgba(255, 255, 0, 1); }
+        }
+
+        /* 라운드 표시 */
+        .center-hud {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .round-wins {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .win-indicator {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+            border: 2px solid rgba(255, 255, 255, 0.5);
+        }
+
+        .win-indicator.won {
+            background: var(--accent);
+            border-color: var(--accent);
+            box-shadow: 0 0 15px var(--accent);
+        }
+
+        .round-timer {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 4rem;
+            font-weight: 900;
+            color: var(--accent);
+            text-shadow: 0 0 30px var(--accent);
+        }
+
+        .round-display {
+            font-size: 1.3rem;
+            color: rgba(255, 255, 255, 0.7);
+            letter-spacing: 0.3em;
+        }
+
+        /* Canvas */
+        #game-canvas {
+            flex: 1;
+            background: linear-gradient(180deg, #0a0012 0%, #1a0030 50%, #0a0012 100%);
+            image-rendering: pixelated;
+        }
+
+        /* 스킬 쿨다운 UI */
+        .skill-cooldowns {
+            position: absolute;
+            bottom: 30px;
+            display: flex;
+            gap: 1rem;
+        }
+
+        .skill-cooldowns.p1 {
+            left: 30px;
+        }
+
+        .skill-cooldowns.p2 {
+            right: 30px;
+        }
+
+        .skill-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, rgba(0, 255, 255, 0.2), rgba(255, 0, 255, 0.2));
+            border: 3px solid var(--primary);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .skill-icon.ready {
+            border-color: var(--accent);
+            box-shadow: 0 0 20px var(--accent);
+            animation: skillReady 1s infinite;
+        }
+
+        @keyframes skillReady {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        .skill-cooldown-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            transition: height 0.1s linear;
+        }
+
+        .skill-key {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            width: 24px;
+            height: 24px;
+            background: rgba(0, 0, 0, 0.9);
+            border: 2px solid var(--primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+            font-weight: 700;
+        }
+
+        /* 메시지 */
+        .fight-message {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-family: 'Orbitron', sans-serif;
+            font-size: 10rem;
+            font-weight: 900;
+            background: linear-gradient(45deg, var(--primary), var(--secondary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            z-index: 1000;
+            opacity: 0;
+            pointer-events: none;
+            filter: drop-shadow(0 0 50px rgba(255, 255, 255, 1));
+        }
+
+        .fight-message.show {
+            animation: fightAnim 2s ease;
+        }
+
+        @keyframes fightAnim {
+            0% { opacity: 0; transform: translate(-50%, -50%) scale(0) rotate(-45deg); }
+            50% { opacity: 1; transform: translate(-50%, -50%) scale(1.3) rotate(0deg); }
+            70% { opacity: 1; transform: translate(-50%, -50%) scale(1) rotate(0deg); }
+            100% { opacity: 0; transform: translate(-50%, -50%) scale(0.8) rotate(45deg); }
+        }
+
+        /* 컨트롤 */
+        .controls-panel {
+            position: absolute;
+            bottom: 110px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(10, 0, 18, 0.95);
+            padding: 1.2rem 2.5rem;
+            border: 2px solid var(--primary);
+            border-radius: 12px;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2.5rem;
+            backdrop-filter: blur(10px);
+        }
+
+        .control-set {
+            display: flex;
+            flex-direction: column;
+            gap: 0.4rem;
+        }
+
+        .control-set h4 {
+            color: var(--primary);
+            font-size: 1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .control-set span {
+            font-size: 0.85rem;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        /* 설정 패널 */
+        .settings-panel {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(10, 0, 18, 0.98);
+            border: 3px solid var(--primary);
+            border-radius: 20px;
+            padding: 2.5rem;
+            max-width: 600px;
+            width: 90%;
+            z-index: 2000;
+            display: none;
+        }
+
+        .settings-panel.active {
+            display: block;
+            animation: slideIn 0.3s ease;
+        }
+
+        @keyframes slideIn {
+            from { transform: translate(-50%, -60%); opacity: 0; }
+            to { transform: translate(-50%, -50%); opacity: 1; }
+        }
+
+        .settings-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+            color: var(--primary);
+            text-shadow: 0 0 20px var(--primary);
+        }
+
+        .setting-item {
+            margin-bottom: 2rem;
+        }
+
+        .setting-label {
+            display: block;
+            margin-bottom: 0.8rem;
+            color: rgba(255, 255, 255, 0.9);
             font-size: 1.1rem;
         }
 
-        /* 업적 알림 애니메이션 */
-        @keyframes slideInRight {
-            from {
-                transform: translateX(400px);
-                opacity: 0;
-            }
-            to {
-                transform: translateX(0);
-                opacity: 1;
-            }
+        .setting-slider {
+            width: 100%;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 4px;
+            outline: none;
+            -webkit-appearance: none;
         }
 
-        @keyframes slideOutRight {
-            from {
-                transform: translateX(0);
-                opacity: 1;
-            }
-            to {
-                transform: translateX(400px);
-                opacity: 0;
-            }
+        .setting-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 24px;
+            height: 24px;
+            background: var(--primary);
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 0 15px var(--primary);
+        }
+
+        select {
+            width: 100%;
+            padding: 0.8rem;
+            background: rgba(0, 0, 0, 0.6);
+            color: white;
+            border: 2px solid var(--primary);
+            border-radius: 8px;
+            font-size: 1rem;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 1.5rem;
+            right: 1.5rem;
+            background: none;
+            border: none;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 2rem;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+
+        .close-btn:hover {
+            color: var(--danger);
         }
 
         /* 통계 박스 */
         .stat-box {
-            background: linear-gradient(135deg, rgba(0, 255, 255, 0.1), rgba(255, 0, 255, 0.1));
-            border: 2px solid var(--primary);
-            border-radius: 10px;
-            padding: 1.5rem;
+            background: linear-gradient(135deg, rgba(0, 255, 255, 0.12), rgba(255, 0, 255, 0.12));
+            border: 3px solid var(--primary);
+            border-radius: 15px;
+            padding: 2rem;
             text-align: center;
             transition: all 0.3s;
         }
 
         .stat-box:hover {
             border-color: var(--accent);
-            box-shadow: 0 0 20px rgba(0, 255, 255, 0.4);
+            box-shadow: 0 0 30px rgba(0, 255, 255, 0.5);
+            transform: translateY(-5px);
         }
 
         .stat-value {
             font-family: 'Orbitron', sans-serif;
-            font-size: 2.5rem;
+            font-size: 3rem;
             font-weight: 900;
             color: var(--primary);
             margin-bottom: 0.5rem;
-            text-shadow: 0 0 10px var(--primary);
+            text-shadow: 0 0 15px var(--primary);
         }
 
         .stat-label {
-            color: var(--text-secondary);
-            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 1rem;
             text-transform: uppercase;
-            letter-spacing: 0.1em;
+            letter-spacing: 0.15em;
         }
 
         .achievement-item {
-            background: rgba(0, 255, 255, 0.1);
-            border-left: 3px solid var(--accent);
-            padding: 0.8rem;
-            border-radius: 5px;
+            background: rgba(0, 255, 255, 0.12);
+            border-left: 4px solid var(--accent);
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 0.8rem;
         }
 
         .achievement-item.locked {
             opacity: 0.5;
             border-left-color: rgba(255, 255, 255, 0.3);
         }
+
+        .back-btn {
+            padding: 1.2rem 4rem;
+            font-size: 1.2rem;
+            margin-top: 2rem;
+        }
+
+        /* 반응형 */
+        @media (max-width: 1400px) {
+            .character-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .menu-title { font-size: 3.5rem; }
+            .character-grid { grid-template-columns: 1fr; }
+            .fight-message { font-size: 5rem; }
+            .controls-panel { grid-template-columns: 1fr; }
+        }
     </style>
 </head>
 <body>
-    <!-- 배경 애니메이션 -->
+    <!-- 배경 -->
     <div class="bg-animation">
         <div class="bg-grid"></div>
     </div>
 
-    <!-- 로딩 화면 -->
+    <!-- 로딩 -->
     <div id="loading-screen">
         <div class="loading-logo">ROBOT ARENA</div>
+        <div class="loading-subtitle">ULTIMATE EDITION</div>
         <div class="loading-bar">
             <div class="loading-progress"></div>
         </div>
@@ -738,59 +908,62 @@
     <!-- 메인 메뉴 -->
     <div id="main-menu">
         <h1 class="menu-title">ROBOT BATTLE ARENA</h1>
-        <p class="menu-subtitle">ULTIMATE FIGHTING CHAMPIONSHIP</p>
+        <p class="menu-subtitle">ULTIMATE EDITION</p>
         <div class="menu-buttons">
-            <button class="menu-btn" onclick="showCharacterSelect('story')"><span>스토리 모드</span></button>
-            <button class="menu-btn" onclick="showCharacterSelect('arcade')"><span>아케이드 모드</span></button>
-            <button class="menu-btn" onclick="showCharacterSelect('versus')"><span>대전 모드</span></button>
-            <button class="menu-btn" onclick="showCharacterSelect('training')"><span>트레이닝</span></button>
-            <button class="menu-btn" onclick="showStats()"><span>통계</span></button>
-            <button class="menu-btn" onclick="showSettings()"><span>설정</span></button>
+            <button class="menu-btn" onclick="showCharacterSelect('story')"><span>🎮 스토리 모드</span></button>
+            <button class="menu-btn" onclick="showCharacterSelect('arcade')"><span>⚔️ 아케이드 모드</span></button>
+            <button class="menu-btn" onclick="showCharacterSelect('versus')"><span>👥 대전 모드</span></button>
+            <button class="menu-btn" onclick="showCharacterSelect('training')"><span>🎯 트레이닝</span></button>
+            <button class="menu-btn" onclick="showStats()"><span>📊 전적 & 통계</span></button>
+            <button class="menu-btn" onclick="showSettings()"><span>⚙️ 설정</span></button>
         </div>
     </div>
 
-    <!-- 캐릭터 선택 화면 -->
+    <!-- 캐릭터 선택 -->
     <div id="character-select" class="hidden">
         <h2 class="select-title">캐릭터 선택</h2>
         <div class="character-grid">
-            <div class="character-card" data-char="striker" onclick="selectCharacter('striker', 1)">
-                <div class="char-portrait striker-portrait"></div>
+            <div class="character-card" data-char="striker" onclick="selectCharacter('striker')">
+                <div class="char-portrait striker-portrait">⚔️</div>
                 <h3>STRIKER</h3>
                 <div class="char-stats">
-                    <div class="stat-bar"><span>공격력</span><div class="stat-fill" style="width: 90%"></div></div>
-                    <div class="stat-bar"><span>방어력</span><div class="stat-fill" style="width: 50%"></div></div>
-                    <div class="stat-bar"><span>속도</span><div class="stat-fill" style="width: 85%"></div></div>
-                    <div class="stat-bar"><span>에너지</span><div class="stat-fill" style="width: 60%"></div></div>
+                    <div class="stat-bar"><span>공격력</span><div class="stat-fill" style="width: 95%"></div></div>
+                    <div class="stat-bar"><span>방어력</span><div class="stat-fill" style="width: 45%"></div></div>
+                    <div class="stat-bar"><span>속도</span><div class="stat-fill" style="width: 90%"></div></div>
+                    <div class="stat-bar"><span>에너지</span><div class="stat-fill" style="width: 55%"></div></div>
                 </div>
-                <p class="char-desc">빠르고 강력한 공격 특화형</p>
+                <p class="char-desc">압도적인 공격력과 빠른 속도로 적을 제압하는 어설트 타입</p>
+                <p class="char-ability">⚡ 특수기: 블리츠 스트라이크</p>
             </div>
 
-            <div class="character-card" data-char="tank" onclick="selectCharacter('tank', 1)">
-                <div class="char-portrait tank-portrait"></div>
+            <div class="character-card" data-char="tank" onclick="selectCharacter('tank')">
+                <div class="char-portrait tank-portrait">🛡️</div>
                 <h3>TANK</h3>
                 <div class="char-stats">
-                    <div class="stat-bar"><span>공격력</span><div class="stat-fill" style="width: 70%"></div></div>
-                    <div class="stat-bar"><span>방어력</span><div class="stat-fill" style="width: 95%"></div></div>
-                    <div class="stat-bar"><span>속도</span><div class="stat-fill" style="width: 40%"></div></div>
-                    <div class="stat-bar"><span>에너지</span><div class="stat-fill" style="width: 80%"></div></div>
+                    <div class="stat-bar"><span>공격력</span><div class="stat-fill" style="width: 65%"></div></div>
+                    <div class="stat-bar"><span>방어력</span><div class="stat-fill" style="width: 100%"></div></div>
+                    <div class="stat-bar"><span>속도</span><div class="stat-fill" style="width: 35%"></div></div>
+                    <div class="stat-bar"><span>에너지</span><div class="stat-fill" style="width: 85%"></div></div>
                 </div>
-                <p class="char-desc">높은 체력과 방어력</p>
+                <p class="char-desc">강력한 장갑과 압도적인 체력으로 전장을 장악하는 중장갑 타입</p>
+                <p class="char-ability">💥 특수기: 그라운드 임팩트</p>
             </div>
 
-            <div class="character-card" data-char="blaster" onclick="selectCharacter('blaster', 1)">
-                <div class="char-portrait blaster-portrait"></div>
+            <div class="character-card" data-char="blaster" onclick="selectCharacter('blaster')">
+                <div class="char-portrait blaster-portrait">🔮</div>
                 <h3>BLASTER</h3>
                 <div class="char-stats">
-                    <div class="stat-bar"><span>공격력</span><div class="stat-fill" style="width: 80%"></div></div>
-                    <div class="stat-bar"><span>방어력</span><div class="stat-fill" style="width: 45%"></div></div>
-                    <div class="stat-bar"><span>속도</span><div class="stat-fill" style="width: 75%"></div></div>
-                    <div class="stat-bar"><span>에너지</span><div class="stat-fill" style="width: 95%"></div></div>
+                    <div class="stat-bar"><span>공격력</span><div class="stat-fill" style="width: 85%"></div></div>
+                    <div class="stat-bar"><span>방어력</span><div class="stat-fill" style="width: 40%"></div></div>
+                    <div class="stat-bar"><span>속도</span><div class="stat-fill" style="width: 70%"></div></div>
+                    <div class="stat-bar"><span>에너지</span><div class="stat-fill" style="width: 100%"></div></div>
                 </div>
-                <p class="char-desc">원거리 에너지 공격 전문</p>
+                <p class="char-desc">초고출력 에너지 무기로 원거리에서 적을 섬멸하는 화력 타입</p>
+                <p class="char-ability">🌟 특수기: 플라즈마 볼텍스</p>
             </div>
 
-            <div class="character-card" data-char="balanced" onclick="selectCharacter('balanced', 1)">
-                <div class="char-portrait balanced-portrait"></div>
+            <div class="character-card" data-char="balanced" onclick="selectCharacter('balanced')">
+                <div class="char-portrait balanced-portrait">⭐</div>
                 <h3>BALANCED</h3>
                 <div class="char-stats">
                     <div class="stat-bar"><span>공격력</span><div class="stat-fill" style="width: 75%"></div></div>
@@ -798,7 +971,8 @@
                     <div class="stat-bar"><span>속도</span><div class="stat-fill" style="width: 75%"></div></div>
                     <div class="stat-bar"><span>에너지</span><div class="stat-fill" style="width: 75%"></div></div>
                 </div>
-                <p class="char-desc">균형잡힌 올라운더</p>
+                <p class="char-desc">완벽한 균형으로 모든 상황에 대응하는 만능 전투 타입</p>
+                <p class="char-ability">💫 특수기: 옴니 버스트</p>
             </div>
         </div>
         <button class="menu-btn back-btn" onclick="backToMainMenu()"><span>← 돌아가기</span></button>
@@ -810,7 +984,10 @@
             <div class="hud-top">
                 <!-- Player 1 -->
                 <div class="player-info p1">
-                    <div class="player-name" style="color: #00ffff;" id="p1-name">PLAYER 1</div>
+                    <div class="player-header">
+                        <div class="player-portrait" id="p1-portrait">⚔️</div>
+                        <div class="player-name" style="color: #00ffff;" id="p1-name">PLAYER 1</div>
+                    </div>
                     <div class="health-container">
                         <div class="health-bg"></div>
                         <div class="health-fill" id="p1-health" style="width: 100%"></div>
@@ -819,17 +996,31 @@
                     <div class="energy-bar">
                         <div class="energy-fill" id="p1-energy" style="width: 100%"></div>
                     </div>
+                    <div class="super-gauge">
+                        <div class="super-fill" id="p1-super" style="width: 0%"></div>
+                    </div>
                 </div>
 
                 <!-- Center -->
                 <div class="center-hud">
+                    <div class="round-wins">
+                        <div class="win-indicator" id="p1-win-1"></div>
+                        <div class="win-indicator" id="p1-win-2"></div>
+                    </div>
                     <div class="round-timer" id="timer">99</div>
                     <div class="round-display" id="round">ROUND 1</div>
+                    <div class="round-wins">
+                        <div class="win-indicator" id="p2-win-1"></div>
+                        <div class="win-indicator" id="p2-win-2"></div>
+                    </div>
                 </div>
 
                 <!-- Player 2 -->
                 <div class="player-info p2">
-                    <div class="player-name" style="color: #ff00ff;" id="p2-name">PLAYER 2</div>
+                    <div class="player-header">
+                        <div class="player-name" style="color: #ff00ff;" id="p2-name">PLAYER 2</div>
+                        <div class="player-portrait" id="p2-portrait">🛡️</div>
+                    </div>
                     <div class="health-container">
                         <div class="health-bg"></div>
                         <div class="health-fill" id="p2-health" style="width: 100%"></div>
@@ -838,32 +1029,59 @@
                     <div class="energy-bar">
                         <div class="energy-fill" id="p2-energy" style="width: 100%"></div>
                     </div>
+                    <div class="super-gauge">
+                        <div class="super-fill" id="p2-super" style="width: 0%"></div>
+                    </div>
                 </div>
             </div>
         </div>
 
         <canvas id="game-canvas"></canvas>
 
+        <!-- 스킬 쿨다운 -->
+        <div class="skill-cooldowns p1">
+            <div class="skill-icon" id="p1-skill-light">
+                <span>👊</span>
+                <div class="skill-cooldown-overlay" style="height: 0%"></div>
+                <div class="skill-key">J</div>
+            </div>
+            <div class="skill-icon" id="p1-skill-heavy">
+                <span>💪</span>
+                <div class="skill-cooldown-overlay" style="height: 0%"></div>
+                <div class="skill-key">K</div>
+            </div>
+            <div class="skill-icon" id="p1-skill-special">
+                <span>⚡</span>
+                <div class="skill-cooldown-overlay" style="height: 0%"></div>
+                <div class="skill-key">L</div>
+            </div>
+            <div class="skill-icon" id="p1-skill-super">
+                <span>💥</span>
+                <div class="skill-cooldown-overlay" style="height: 100%"></div>
+                <div class="skill-key">I</div>
+            </div>
+        </div>
+
         <div class="controls-panel">
             <div class="control-set">
-                <h4>PLAYER 1</h4>
+                <h4>PLAYER 1 조작법</h4>
                 <span>A/D: 이동 | W: 점프 | S: 가드</span>
                 <span>J: 약공격 | K: 강공격 | L: 필살기</span>
-                <span>U: 회피</span>
+                <span>I: 슈퍼 필살기 | U: 회피</span>
             </div>
             <div class="control-set" id="p2-controls" style="display: none;">
-                <h4>PLAYER 2</h4>
+                <h4>PLAYER 2 조작법</h4>
                 <span>←/→: 이동 | ↑: 점프 | ↓: 가드</span>
                 <span>1: 약공격 | 2: 강공격 | 3: 필살기</span>
-                <span>0: 회피</span>
+                <span>4: 슈퍼 필살기 | 0: 회피</span>
             </div>
         </div>
     </div>
 
-    <!-- 승부 메시지 -->
+    <!-- 메시지 -->
     <div class="fight-message" id="fight-message"></div>
 
-    <!-- 설정 패널 -->
+    <!-- 설정 -->
     <div class="settings-panel" id="settings-panel">
         <button class="close-btn" onclick="closeSettings()">×</button>
         <h2 class="settings-title">설정</h2>
@@ -877,20 +1095,20 @@
         </div>
         <div class="setting-item">
             <label class="setting-label">AI 난이도</label>
-            <select id="difficulty-select" style="width: 100%; padding: 0.5rem; background: rgba(0,0,0,0.5); color: white; border: 1px solid var(--primary); border-radius: 5px;" onchange="updateDifficulty(this.value)">
-                <option value="easy">쉬움</option>
-                <option value="normal" selected>보통</option>
-                <option value="hard">어려움</option>
-                <option value="legend">전설</option>
+            <select id="difficulty-select" onchange="updateDifficulty(this.value)">
+                <option value="easy">쉬움 - 초보자용</option>
+                <option value="normal" selected>보통 - 일반 플레이어</option>
+                <option value="hard">어려움 - 숙련자용</option>
+                <option value="legend">전설 - 마스터 레벨</option>
             </select>
         </div>
     </div>
 
-    <!-- 통계 패널 -->
+    <!-- 통계 -->
     <div class="settings-panel" id="stats-panel">
         <button class="close-btn" onclick="closeStats()">×</button>
         <h2 class="settings-title">전적 & 통계</h2>
-        <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem; margin-top: 2rem;">
+        <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 2rem; margin-top: 2rem;">
             <div class="stat-box">
                 <div class="stat-value" id="stat-wins">0</div>
                 <div class="stat-label">승리</div>
@@ -917,82 +1135,79 @@
             </div>
         </div>
         <div style="margin-top: 2rem;">
-            <h3 style="color: var(--primary); margin-bottom: 1rem;">달성한 업적</h3>
-            <div id="achievements-list" style="max-height: 200px; overflow-y: auto; display: flex; flex-direction: column; gap: 0.5rem;">
-                <!-- Achievements will be dynamically inserted here -->
+            <h3 style="color: var(--primary); margin-bottom: 1.5rem; font-size: 1.5rem;">달성한 업적</h3>
+            <div id="achievements-list" style="max-height: 250px; overflow-y: auto;">
             </div>
         </div>
     </div>
 
     <script>
-        // ===== 캐릭터 타입 정의 =====
+        // ===== 게임 데이터 =====
         const CharacterTypes = {
             striker: {
                 name: 'STRIKER',
+                emoji: '⚔️',
                 color: '#ff0044',
-                maxHealth: 90,
-                maxEnergy: 80,
-                moveSpeed: 5.5,
-                jumpPower: 16,
-                attackMultiplier: 1.3,
-                defenseMultiplier: 0.8,
-                energyRegenRate: 0.4,
-                specialAbility: 'rapid-strike',
-                description: '빠르고 강력한 공격 특화형'
+                maxHealth: 85,
+                maxEnergy: 75,
+                moveSpeed: 6.5,
+                jumpPower: 17,
+                attackMultiplier: 1.4,
+                defenseMultiplier: 0.7,
+                energyRegenRate: 0.45,
+                superGaugeRate: 1.2,
+                specialAbility: 'blitz-strike'
             },
             tank: {
                 name: 'TANK',
+                emoji: '🛡️',
                 color: '#00ff88',
-                maxHealth: 130,
-                maxEnergy: 100,
-                moveSpeed: 3.5,
-                jumpPower: 12,
-                attackMultiplier: 0.9,
-                defenseMultiplier: 1.5,
-                energyRegenRate: 0.35,
-                specialAbility: 'shield-bash',
-                description: '높은 체력과 방어력'
+                maxHealth: 140,
+                maxEnergy: 110,
+                moveSpeed: 3.2,
+                jumpPower: 11,
+                attackMultiplier: 0.85,
+                defenseMultiplier: 1.6,
+                energyRegenRate: 0.32,
+                superGaugeRate: 0.8,
+                specialAbility: 'ground-impact'
             },
             blaster: {
                 name: 'BLASTER',
+                emoji: '🔮',
                 color: '#ff00ff',
-                maxHealth: 85,
-                maxEnergy: 120,
-                moveSpeed: 4.5,
-                jumpPower: 14,
-                attackMultiplier: 1.1,
-                defenseMultiplier: 0.7,
-                energyRegenRate: 0.5,
-                specialAbility: 'energy-blast',
-                description: '원거리 에너지 공격 전문'
+                maxHealth: 80,
+                maxEnergy: 130,
+                moveSpeed: 5.0,
+                jumpPower: 13,
+                attackMultiplier: 1.15,
+                defenseMultiplier: 0.65,
+                energyRegenRate: 0.55,
+                superGaugeRate: 1.0,
+                specialAbility: 'plasma-vortex'
             },
             balanced: {
                 name: 'BALANCED',
+                emoji: '⭐',
                 color: '#ffaa00',
                 maxHealth: 100,
                 maxEnergy: 100,
-                moveSpeed: 4.5,
+                moveSpeed: 5.0,
                 jumpPower: 15,
                 attackMultiplier: 1.0,
                 defenseMultiplier: 1.0,
                 energyRegenRate: 0.4,
-                specialAbility: 'balanced-strike',
-                description: '균형잡힌 올라운더'
+                superGaugeRate: 1.0,
+                specialAbility: 'omni-burst'
             }
         };
 
-        // ===== 게임 시스템 =====
         const GameSystem = {
             canvas: null,
             ctx: null,
             running: false,
             mode: null,
-            selectedCharacters: {
-                p1: null,
-                p2: null
-            },
             playerData: null,
-
             settings: {
                 bgmVolume: 0.7,
                 sfxVolume: 0.8,
@@ -1005,25 +1220,21 @@
                 this.resizeCanvas();
                 window.addEventListener('resize', () => this.resizeCanvas());
 
-                // 로딩 완료
                 setTimeout(() => {
                     document.getElementById('loading-screen').classList.add('hidden');
                 }, 2000);
 
-                // 사운드 초기화
                 SoundSystem.init();
-
-                // 저장 데이터 로드
                 this.loadPlayerData();
             },
 
             resizeCanvas() {
                 this.canvas.width = window.innerWidth;
-                this.canvas.height = window.innerHeight - 200;
+                this.canvas.height = window.innerHeight - 220;
             },
 
             loadPlayerData() {
-                const saved = localStorage.getItem('robotBattleData');
+                const saved = localStorage.getItem('robotBattleUltimate');
                 if (saved) {
                     this.playerData = JSON.parse(saved);
                 } else {
@@ -1032,8 +1243,6 @@
                         losses: 0,
                         totalMatches: 0,
                         achievements: [],
-                        unlockedCharacters: ['striker', 'tank', 'blaster', 'balanced'],
-                        favoriteCharacter: null,
                         highestCombo: 0,
                         storyProgress: 0
                     };
@@ -1042,7 +1251,7 @@
             },
 
             savePlayerData() {
-                localStorage.setItem('robotBattleData', JSON.stringify(this.playerData));
+                localStorage.setItem('robotBattleUltimate', JSON.stringify(this.playerData));
             }
         };
 
@@ -1056,49 +1265,50 @@
                 this.audioContext = new (window.AudioContext || window.webkitAudioContext)();
                 this.bgmGain = this.audioContext.createGain();
                 this.sfxGain = this.audioContext.createGain();
-
                 this.bgmGain.connect(this.audioContext.destination);
                 this.sfxGain.connect(this.audioContext.destination);
-
                 this.bgmGain.gain.value = GameSystem.settings.bgmVolume;
                 this.sfxGain.gain.value = GameSystem.settings.sfxVolume;
             },
 
-            playSound(type, frequency = 440, duration = 0.1) {
-                const oscillator = this.audioContext.createOscillator();
-                const gainNode = this.audioContext.createGain();
-
-                oscillator.connect(gainNode);
-                gainNode.connect(this.sfxGain);
-
-                oscillator.frequency.value = frequency;
-                oscillator.type = type;
-
-                gainNode.gain.setValueAtTime(0.3, this.audioContext.currentTime);
-                gainNode.gain.exponentialRampToValueAtTime(0.01, this.audioContext.currentTime + duration);
-
-                oscillator.start(this.audioContext.currentTime);
-                oscillator.stop(this.audioContext.currentTime + duration);
+            playTone(freq, duration, type = 'sine', volume = 0.3) {
+                const osc = this.audioContext.createOscillator();
+                const gain = this.audioContext.createGain();
+                osc.connect(gain);
+                gain.connect(this.sfxGain);
+                osc.frequency.value = freq;
+                osc.type = type;
+                gain.gain.setValueAtTime(volume, this.audioContext.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.01, this.audioContext.currentTime + duration);
+                osc.start();
+                osc.stop(this.audioContext.currentTime + duration);
             },
 
             playHit() {
-                this.playSound('square', 80, 0.1);
-                setTimeout(() => this.playSound('sawtooth', 200, 0.05), 50);
+                this.playTone(90, 0.1, 'square', 0.4);
+                setTimeout(() => this.playTone(220, 0.05, 'sawtooth', 0.3), 50);
             },
 
             playPunch() {
-                this.playSound('square', 150, 0.08);
+                this.playTone(160, 0.09, 'square', 0.35);
             },
 
             playKick() {
-                this.playSound('sawtooth', 120, 0.12);
+                this.playTone(130, 0.13, 'sawtooth', 0.35);
             },
 
             playSpecial() {
-                for (let i = 0; i < 5; i++) {
+                for (let i = 0; i < 7; i++) {
+                    setTimeout(() => this.playTone(450 + i * 120, 0.15, 'sine', 0.3), i * 50);
+                }
+            },
+
+            playSuper() {
+                for (let i = 0; i < 15; i++) {
                     setTimeout(() => {
-                        this.playSound('sine', 400 + i * 100, 0.15);
-                    }, i * 50);
+                        this.playTone(300 + i * 80, 0.2, 'triangle', 0.25);
+                        this.playTone(600 + i * 160, 0.15, 'sine', 0.2);
+                    }, i * 80);
                 }
             }
         };
@@ -1119,8 +1329,8 @@
             update() {
                 this.x += this.vx;
                 this.y += this.vy;
-                this.vy += 0.5; // 중력
-                this.vx *= 0.98;
+                this.vy += 0.6;
+                this.vx *= 0.97;
                 this.life--;
                 return this.life > 0;
             }
@@ -1129,7 +1339,7 @@
                 ctx.save();
                 ctx.globalAlpha = this.life / this.maxLife;
                 ctx.fillStyle = this.color;
-                ctx.shadowBlur = 15;
+                ctx.shadowBlur = 20;
                 ctx.shadowColor = this.color;
                 ctx.beginPath();
                 ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
@@ -1143,59 +1353,24 @@
                 this.particles = [];
             }
 
-            createExplosion(x, y, color, count = 30, type = 'normal') {
-                switch(type) {
-                    case 'striker':
-                        // 날카로운 파편 효과
-                        for (let i = 0; i < count; i++) {
-                            const angle = (Math.PI * 2 / count) * i;
-                            const speed = 5 + Math.random() * 8;
-                            const vx = Math.cos(angle) * speed;
-                            const vy = Math.sin(angle) * speed - 3;
-                            this.particles.push(new Particle(x, y, vx, vy, color, 2 + Math.random() * 2, 50 + Math.random() * 20));
-                        }
-                        break;
-                    case 'tank':
-                        // 무거운 충격파 효과
-                        for (let i = 0; i < count * 1.5; i++) {
-                            const angle = (Math.PI * 2 / (count * 1.5)) * i;
-                            const speed = 2 + Math.random() * 4;
-                            const vx = Math.cos(angle) * speed;
-                            const vy = Math.sin(angle) * speed;
-                            this.particles.push(new Particle(x, y, vx, vy, color, 4 + Math.random() * 4, 60 + Math.random() * 30));
-                        }
-                        break;
-                    case 'blaster':
-                        // 에너지 잔해 효과
-                        for (let i = 0; i < count; i++) {
-                            const angle = (Math.PI * 2 / count) * i;
-                            const speed = 4 + Math.random() * 6;
-                            const vx = Math.cos(angle) * speed;
-                            const vy = Math.sin(angle) * speed;
-                            this.particles.push(new Particle(x, y, vx, vy, color, 3 + Math.random() * 5, 45 + Math.random() * 25));
-                        }
-                        // 추가 발광 입자
-                        for (let i = 0; i < 10; i++) {
-                            const angle = Math.random() * Math.PI * 2;
-                            const speed = 2 + Math.random() * 3;
-                            this.particles.push(new Particle(x, y, Math.cos(angle) * speed, Math.sin(angle) * speed, '#00ffff', 6, 30));
-                        }
-                        break;
-                    default:
-                        // 일반 폭발
-                        for (let i = 0; i < count; i++) {
-                            const angle = (Math.PI * 2 / count) * i;
-                            const speed = 3 + Math.random() * 5;
-                            const vx = Math.cos(angle) * speed;
-                            const vy = Math.sin(angle) * speed;
-                            this.particles.push(new Particle(x, y, vx, vy, color, 3 + Math.random() * 3, 40 + Math.random() * 20));
-                        }
+            createExplosion(x, y, color, count = 40, power = 1) {
+                for (let i = 0; i < count; i++) {
+                    const angle = (Math.PI * 2 / count) * i;
+                    const speed = (4 + Math.random() * 8) * power;
+                    const vx = Math.cos(angle) * speed;
+                    const vy = Math.sin(angle) * speed - 2;
+                    this.particles.push(new Particle(x, y, vx, vy, color, 3 + Math.random() * 5, 50 + Math.random() * 30));
                 }
             }
 
-            createTrail(x, y, color, vx, vy) {
-                // 이동 잔상 효과
-                this.particles.push(new Particle(x, y, vx * 0.3, vy * 0.3, color, 4, 20));
+            createSuperExplosion(x, y, color) {
+                for (let i = 0; i < 80; i++) {
+                    const angle = Math.random() * Math.PI * 2;
+                    const speed = 8 + Math.random() * 15;
+                    const vx = Math.cos(angle) * speed;
+                    const vy = Math.sin(angle) * speed - 5;
+                    this.particles.push(new Particle(x, y, vx, vy, color, 4 + Math.random() * 8, 60 + Math.random() * 40));
+                }
             }
 
             update() {
@@ -1207,23 +1382,23 @@
             }
         }
 
-        // ===== AI 시스템 =====
+        // ===== AI =====
         class AIController {
             constructor(robot, difficulty = 'normal') {
                 this.robot = robot;
                 this.difficulty = difficulty;
                 this.actionTimer = 0;
-                this.strategy = 'neutral';
+                this.strategy = 'balanced';
                 this.reactionTime = this.getDifficultySettings().reactionTime;
                 this.decisionDelay = 0;
             }
 
             getDifficultySettings() {
                 const settings = {
-                    easy: { reactionTime: 30, accuracy: 0.3, aggression: 0.3, defenseChance: 0.2 },
-                    normal: { reactionTime: 20, accuracy: 0.5, aggression: 0.5, defenseChance: 0.4 },
-                    hard: { reactionTime: 10, accuracy: 0.7, aggression: 0.7, defenseChance: 0.6 },
-                    legend: { reactionTime: 5, accuracy: 0.9, aggression: 0.8, defenseChance: 0.8 }
+                    easy: { reactionTime: 35, accuracy: 0.25, aggression: 0.25, defenseChance: 0.15, superChance: 0.05 },
+                    normal: { reactionTime: 22, accuracy: 0.5, aggression: 0.5, defenseChance: 0.4, superChance: 0.15 },
+                    hard: { reactionTime: 12, accuracy: 0.75, aggression: 0.75, defenseChance: 0.65, superChance: 0.3 },
+                    legend: { reactionTime: 6, accuracy: 0.92, aggression: 0.85, defenseChance: 0.85, superChance: 0.5 }
                 };
                 return settings[this.difficulty] || settings.normal;
             }
@@ -1238,34 +1413,32 @@
                 const settings = this.getDifficultySettings();
 
                 // 전략 결정
-                if (this.robot.health < 30) {
+                if (this.robot.health < 25) {
                     this.strategy = 'defensive';
-                } else if (this.robot.energy > 70) {
+                } else if (this.robot.superGauge >= 100) {
+                    this.strategy = 'super';
+                } else if (this.robot.energy > 80) {
                     this.strategy = 'aggressive';
                 } else {
                     this.strategy = 'balanced';
                 }
 
-                // 거리에 따른 행동
-                if (distance > 150) {
-                    // 접근
+                if (distance > 170) {
                     this.robot.move(opponent.x > this.robot.x ? 1 : -1);
-                    if (Math.random() < 0.1) this.robot.jump();
-                } else if (distance > 80) {
-                    // 중거리 - 공격 또는 접근
+                    if (Math.random() < 0.12) this.robot.jump();
+                } else if (distance > 90) {
                     if (Math.random() < settings.aggression) {
                         this.robot.move(opponent.x > this.robot.x ? 1 : -1);
                     }
                     if (this.actionTimer <= 0 && Math.random() < settings.accuracy) {
                         if (this.robot.attack('light')) {
-                            this.actionTimer = 15;
+                            this.actionTimer = 18;
                             this.decisionDelay = this.reactionTime;
                         }
                     }
                 } else {
-                    // 근거리 - 전투
                     if (opponent.isAttacking && Math.random() < settings.defenseChance) {
-                        if (Math.random() < 0.6) {
+                        if (Math.random() < 0.55) {
                             this.robot.guard(true);
                         } else {
                             this.robot.dodge();
@@ -1275,36 +1448,46 @@
 
                         if (this.actionTimer <= 0) {
                             const rand = Math.random();
+
+                            // 슈퍼 공격 우선
+                            if (this.robot.superGauge >= 100 && rand < settings.superChance && this.strategy === 'super') {
+                                if (this.robot.attackSuper()) {
+                                    this.actionTimer = 120;
+                                    this.decisionDelay = this.reactionTime;
+                                    return;
+                                }
+                            }
+
                             if (this.strategy === 'aggressive') {
-                                if (rand < 0.3 && this.robot.energy >= 40) {
+                                if (rand < 0.35 && this.robot.energy >= 40) {
                                     this.robot.attack('special');
-                                    this.actionTimer = 40;
-                                } else if (rand < 0.7) {
+                                    this.actionTimer = 45;
+                                } else if (rand < 0.75) {
                                     this.robot.attack('heavy');
-                                    this.actionTimer = 25;
+                                    this.actionTimer = 28;
                                 } else {
                                     this.robot.attack('light');
-                                    this.actionTimer = 15;
+                                    this.actionTimer = 18;
                                 }
                             } else if (this.strategy === 'defensive') {
-                                if (rand < 0.7) {
+                                if (rand < 0.75) {
                                     this.robot.attack('light');
-                                    this.actionTimer = 15;
-                                } else if (rand < 0.85) {
+                                    this.actionTimer = 18;
+                                } else if (rand < 0.88) {
                                     this.robot.guard(true);
                                 } else {
                                     this.robot.dodge();
                                 }
                             } else {
-                                if (rand < 0.5) {
+                                if (rand < 0.55) {
                                     this.robot.attack('light');
-                                    this.actionTimer = 15;
-                                } else if (rand < 0.8) {
+                                    this.actionTimer = 18;
+                                } else if (rand < 0.85) {
                                     this.robot.attack('heavy');
-                                    this.actionTimer = 25;
+                                    this.actionTimer = 28;
                                 } else {
                                     this.robot.attack('special');
-                                    this.actionTimer = 40;
+                                    this.actionTimer = 45;
                                 }
                             }
                             this.decisionDelay = this.reactionTime;
@@ -1314,19 +1497,20 @@
             }
         }
 
-        // ===== 로봇 클래스 =====
+        // ===== 로봇 =====
         class Robot {
             constructor(x, y, characterType, isPlayer1 = true) {
                 const charData = CharacterTypes[characterType];
 
                 this.x = x;
                 this.y = y;
-                this.width = 60;
-                this.height = 80;
+                this.width = 70;
+                this.height = 90;
                 this.vx = 0;
                 this.vy = 0;
                 this.characterType = characterType;
                 this.name = charData.name;
+                this.emoji = charData.emoji;
                 this.color = charData.color;
                 this.isPlayer1 = isPlayer1;
 
@@ -1334,6 +1518,9 @@
                 this.health = charData.maxHealth;
                 this.maxEnergy = charData.maxEnergy;
                 this.energy = charData.maxEnergy;
+                this.maxSuperGauge = 100;
+                this.superGauge = 0;
+                this.superGaugeRate = charData.superGaugeRate;
 
                 this.facing = isPlayer1 ? 1 : -1;
                 this.isGrounded = false;
@@ -1354,6 +1541,13 @@
                 this.defenseMultiplier = charData.defenseMultiplier;
                 this.energyRegenRate = charData.energyRegenRate;
                 this.specialAbility = charData.specialAbility;
+
+                this.skillCooldowns = {
+                    light: 0,
+                    heavy: 0,
+                    special: 0,
+                    super: 0
+                };
             }
 
             move(dir) {
@@ -1364,9 +1558,9 @@
             }
 
             jump() {
-                if (this.isGrounded && !this.stunned && this.energy >= 10) {
+                if (this.isGrounded && !this.stunned && this.energy >= 12) {
                     this.vy = -this.jumpPower;
-                    this.energy -= 10;
+                    this.energy -= 12;
                     this.isGrounded = false;
                 }
             }
@@ -1376,11 +1570,11 @@
             }
 
             dodge() {
-                if (!this.isDodging && this.energy >= 20 && !this.stunned) {
+                if (!this.isDodging && this.energy >= 22 && !this.stunned) {
                     this.isDodging = true;
-                    this.energy -= 20;
-                    this.vx = this.facing * 10;
-                    setTimeout(() => this.isDodging = false, 300);
+                    this.energy -= 22;
+                    this.vx = this.facing * 12;
+                    setTimeout(() => this.isDodging = false, 280);
                     return true;
                 }
                 return false;
@@ -1390,22 +1584,39 @@
                 if (this.isAttacking || this.stunned || this.isDodging) return false;
 
                 let energyCost = 0;
+                let cooldown = 0;
                 switch(type) {
-                    case 'light': energyCost = 5; break;
-                    case 'heavy': energyCost = 15; break;
-                    case 'special': energyCost = 40; break;
+                    case 'light': energyCost = 6; cooldown = 15; break;
+                    case 'heavy': energyCost = 18; cooldown = 30; break;
+                    case 'special': energyCost = 45; cooldown = 60; break;
                 }
 
-                if (this.energy < energyCost) return false;
+                if (this.energy < energyCost || this.skillCooldowns[type] > 0) return false;
 
                 this.isAttacking = true;
                 this.attackType = type;
                 this.energy -= energyCost;
+                this.skillCooldowns[type] = cooldown;
 
                 setTimeout(() => {
                     this.isAttacking = false;
                     this.attackType = null;
-                }, 300);
+                }, 320);
+
+                return true;
+            }
+
+            attackSuper() {
+                if (this.superGauge < 100 || this.isAttacking || this.stunned) return false;
+
+                this.isAttacking = true;
+                this.attackType = 'super';
+                this.superGauge = 0;
+
+                setTimeout(() => {
+                    this.isAttacking = false;
+                    this.attackType = null;
+                }, 500);
 
                 return true;
             }
@@ -1415,8 +1626,8 @@
 
                 let actualDamage = damage / this.defenseMultiplier;
                 if (this.isGuarding) {
-                    actualDamage *= 0.3;
-                    knockback *= 0.5;
+                    actualDamage *= 0.25;
+                    knockback *= 0.4;
                 }
 
                 this.health = Math.max(0, this.health - actualDamage);
@@ -1424,16 +1635,19 @@
 
                 if (!this.isGuarding) {
                     this.stunned = true;
-                    this.stunnedTime = 20;
+                    this.stunnedTime = 22;
                 }
 
-                return true;
+                return actualDamage;
+            }
+
+            addSuperGauge(amount) {
+                this.superGauge = Math.min(this.maxSuperGauge, this.superGauge + amount * this.superGaugeRate);
             }
 
             update(groundLevel) {
-                // 물리
                 if (this.y < groundLevel) {
-                    this.vy += 0.8;
+                    this.vy += 0.9;
                     this.isGrounded = false;
                 } else {
                     this.y = groundLevel;
@@ -1441,25 +1655,29 @@
                     this.isGrounded = true;
                 }
 
-                this.vx *= 0.85;
+                this.vx *= 0.82;
                 this.x += this.vx;
                 this.y += this.vy;
 
-                // 에너지 회복
                 if (this.energy < this.maxEnergy) {
                     this.energy = Math.min(this.maxEnergy, this.energy + this.energyRegenRate);
                 }
 
-                // 스턴
                 if (this.stunned) {
                     this.stunnedTime--;
                     if (this.stunnedTime <= 0) this.stunned = false;
                 }
 
-                // 콤보 타이머
                 if (this.comboTimer > 0) {
                     this.comboTimer--;
                     if (this.comboTimer <= 0) this.combo = 0;
+                }
+
+                // 스킬 쿨다운 감소
+                for (let skill in this.skillCooldowns) {
+                    if (this.skillCooldowns[skill] > 0) {
+                        this.skillCooldowns[skill]--;
+                    }
                 }
 
                 this.animFrame++;
@@ -1469,250 +1687,87 @@
                 ctx.save();
 
                 // 그림자
-                ctx.fillStyle = 'rgba(0, 0, 0, 0.3)';
+                ctx.fillStyle = 'rgba(0, 0, 0, 0.4)';
                 ctx.beginPath();
-                ctx.ellipse(this.x + this.width/2, this.y + this.height + 5, this.width/2, 8, 0, 0, Math.PI * 2);
+                ctx.ellipse(this.x + this.width/2, this.y + this.height + 8, this.width/2 + 5, 10, 0, 0, Math.PI * 2);
                 ctx.fill();
 
-                // 회피 효과
                 if (this.isDodging) {
-                    ctx.globalAlpha = 0.5;
+                    ctx.globalAlpha = 0.4;
                 }
 
-                // 가드 효과
                 if (this.isGuarding) {
                     ctx.strokeStyle = this.color;
-                    ctx.lineWidth = 3;
-                    ctx.shadowBlur = 15;
+                    ctx.lineWidth = 4;
+                    ctx.shadowBlur = 20;
                     ctx.shadowColor = this.color;
-                    ctx.strokeRect(this.x - 5, this.y - 5, this.width + 10, this.height + 10);
+                    ctx.strokeRect(this.x - 8, this.y - 8, this.width + 16, this.height + 16);
                 }
 
-                // 캐릭터별 고유 외형
-                ctx.shadowBlur = 20;
+                ctx.shadowBlur = 25;
                 ctx.shadowColor = this.color;
+                ctx.fillStyle = this.color;
 
-                switch(this.characterType) {
-                    case 'striker':
-                        this.drawStriker(ctx);
-                        break;
-                    case 'tank':
-                        this.drawTank(ctx);
-                        break;
-                    case 'blaster':
-                        this.drawBlaster(ctx);
-                        break;
-                    case 'balanced':
-                        this.drawBalanced(ctx);
-                        break;
-                }
+                // 간단한 로봇 외형
+                ctx.fillRect(this.x + 18, this.y, 34, 22);
+                ctx.fillStyle = '#ffffff';
+                ctx.fillRect(this.x + 24, this.y + 8, 9, 9);
+                ctx.fillRect(this.x + 37, this.y + 8, 9, 9);
+
+                ctx.fillStyle = this.color;
+                ctx.fillRect(this.x + 12, this.y + 22, 46, 48);
+
+                const armSwing = Math.sin(this.animFrame * 0.18) * 5;
+                ctx.fillRect(this.x, this.y + 28 + armSwing, 12, 32);
+                ctx.fillRect(this.x + 58, this.y + 28 - armSwing, 12, 32);
+
+                const legSwing = Math.sin(this.animFrame * 0.22) * 6;
+                ctx.fillRect(this.x + 18, this.y + 70 + legSwing, 14, 20);
+                ctx.fillRect(this.x + 38, this.y + 70 - legSwing, 14, 20);
 
                 // 공격 이펙트
                 if (this.isAttacking) {
-                    this.drawAttackEffect(ctx);
+                    ctx.globalAlpha = 0.8;
+                    const attackX = this.facing > 0 ? this.x + this.width : this.x - 50;
+
+                    if (this.attackType === 'super') {
+                        // 슈퍼 공격
+                        ctx.fillStyle = '#ffff00';
+                        for (let i = 0; i < 8; i++) {
+                            ctx.save();
+                            ctx.translate(attackX + this.facing * i * 30, this.y + 40);
+                            ctx.rotate((i * Math.PI / 8) + this.animFrame * 0.3);
+                            ctx.fillRect(-15, -15, 30, 30);
+                            ctx.restore();
+                        }
+                    } else if (this.attackType === 'special') {
+                        ctx.fillStyle = this.color;
+                        for (let i = 0; i < 6; i++) {
+                            ctx.fillRect(attackX + this.facing * i * 28, this.y + 32, 24, 18);
+                        }
+                    } else {
+                        ctx.fillStyle = this.color;
+                        const size = this.attackType === 'heavy' ? 58 : 42;
+                        ctx.fillRect(attackX, this.y + 28, size, 34);
+                    }
                 }
 
                 ctx.restore();
             }
 
-            drawStriker(ctx) {
-                // STRIKER - 날렵하고 공격적인 디자인
-                ctx.fillStyle = this.color;
-
-                // 뾰족한 머리
-                ctx.beginPath();
-                ctx.moveTo(this.x + 30, this.y);
-                ctx.lineTo(this.x + 20, this.y + 15);
-                ctx.lineTo(this.x + 40, this.y + 15);
-                ctx.closePath();
-                ctx.fill();
-
-                // 눈 (날카로운)
-                ctx.fillStyle = '#ffffff';
-                ctx.fillRect(this.x + 22, this.y + 8, 6, 4);
-                ctx.fillRect(this.x + 32, this.y + 8, 6, 4);
-
-                // 날렵한 몸통
-                ctx.fillStyle = this.color;
-                ctx.fillRect(this.x + 15, this.y + 20, 30, 35);
-
-                // 블레이드 팔
-                const armSwing = Math.sin(this.animFrame * 0.2) * 4;
-                ctx.fillRect(this.x + 5, this.y + 25 + armSwing, 8, 30);
-                ctx.fillRect(this.x + 47, this.y + 25 - armSwing, 8, 30);
-                // 블레이드 끝
-                ctx.fillRect(this.x + 3, this.y + 55 + armSwing, 10, 5);
-                ctx.fillRect(this.x + 47, this.y + 55 - armSwing, 10, 5);
-
-                // 강화된 다리
-                const legSwing = Math.sin(this.animFrame * 0.25) * 5;
-                ctx.fillRect(this.x + 18, this.y + 55 + legSwing, 10, 25);
-                ctx.fillRect(this.x + 32, this.y + 55 - legSwing, 10, 25);
-            }
-
-            drawTank(ctx) {
-                // TANK - 튼튼하고 육중한 디자인
-                ctx.fillStyle = this.color;
-
-                // 넓은 머리
-                ctx.fillRect(this.x + 10, this.y, 40, 25);
-
-                // 눈 (작고 튼튼한)
-                ctx.fillStyle = '#ffffff';
-                ctx.fillRect(this.x + 18, this.y + 10, 8, 6);
-                ctx.fillRect(this.x + 34, this.y + 10, 8, 6);
-
-                // 두꺼운 몸통
-                ctx.fillStyle = this.color;
-                ctx.fillRect(this.x + 5, this.y + 25, 50, 30);
-
-                // 장갑판
-                ctx.fillStyle = 'rgba(255, 255, 255, 0.2)';
-                ctx.fillRect(this.x + 10, this.y + 30, 40, 5);
-                ctx.fillRect(this.x + 10, this.y + 40, 40, 5);
-
-                // 두꺼운 팔
-                ctx.fillStyle = this.color;
-                const armSwing = Math.sin(this.animFrame * 0.1) * 2;
-                ctx.fillRect(this.x - 5, this.y + 28 + armSwing, 12, 28);
-                ctx.fillRect(this.x + 53, this.y + 28 - armSwing, 12, 28);
-
-                // 튼튼한 다리
-                const legSwing = Math.sin(this.animFrame * 0.15) * 3;
-                ctx.fillRect(this.x + 12, this.y + 55 + legSwing, 15, 25);
-                ctx.fillRect(this.x + 33, this.y + 55 - legSwing, 15, 25);
-            }
-
-            drawBlaster(ctx) {
-                // BLASTER - 에너지 무기와 기술적인 디자인
-                ctx.fillStyle = this.color;
-
-                // 안테나가 있는 머리
-                ctx.fillRect(this.x + 17, this.y, 26, 18);
-                // 안테나
-                ctx.fillRect(this.x + 25, this.y - 8, 3, 8);
-                ctx.fillRect(this.x + 32, this.y - 6, 3, 6);
-
-                // 눈 (에너지)
-                ctx.fillStyle = '#00ffff';
-                ctx.beginPath();
-                ctx.arc(this.x + 23, this.y + 9, 4, 0, Math.PI * 2);
-                ctx.arc(this.x + 37, this.y + 9, 4, 0, Math.PI * 2);
-                ctx.fill();
-
-                // 에너지 코어가 있는 몸통
-                ctx.fillStyle = this.color;
-                ctx.fillRect(this.x + 12, this.y + 20, 36, 35);
-
-                // 에너지 코어
-                ctx.fillStyle = '#ffffff';
-                ctx.globalAlpha = 0.3 + Math.sin(this.animFrame * 0.1) * 0.3;
-                ctx.beginPath();
-                ctx.arc(this.x + 30, this.y + 37, 8, 0, Math.PI * 2);
-                ctx.fill();
-                ctx.globalAlpha = 1;
-
-                // 에너지 캐논 팔
-                ctx.fillStyle = this.color;
-                const armSwing = Math.sin(this.animFrame * 0.15) * 3;
-                ctx.fillRect(this.x + 2, this.y + 25 + armSwing, 10, 20);
-                ctx.fillRect(this.x + 48, this.y + 25 - armSwing, 10, 20);
-                // 캐논 끝
-                ctx.fillStyle = '#00ffff';
-                ctx.fillRect(this.x, this.y + 45 + armSwing, 6, 8);
-                ctx.fillRect(this.x + 54, this.y + 45 - armSwing, 6, 8);
-
-                // 다리
-                ctx.fillStyle = this.color;
-                const legSwing = Math.sin(this.animFrame * 0.2) * 4;
-                ctx.fillRect(this.x + 16, this.y + 55 + legSwing, 11, 25);
-                ctx.fillRect(this.x + 33, this.y + 55 - legSwing, 11, 25);
-            }
-
-            drawBalanced(ctx) {
-                // BALANCED - 균형잡힌 표준 디자인
-                ctx.fillStyle = this.color;
-
-                // 표준 머리
-                ctx.fillRect(this.x + 15, this.y, 30, 20);
-
-                // 눈
-                ctx.fillStyle = '#ffffff';
-                ctx.fillRect(this.x + 20, this.y + 7, 8, 8);
-                ctx.fillRect(this.x + 32, this.y + 7, 8, 8);
-
-                // 표준 몸통
-                ctx.fillStyle = this.color;
-                ctx.fillRect(this.x + 10, this.y + 20, 40, 40);
-
-                // 어깨 장식
-                ctx.fillStyle = 'rgba(255, 255, 255, 0.3)';
-                ctx.fillRect(this.x + 8, this.y + 22, 10, 6);
-                ctx.fillRect(this.x + 42, this.y + 22, 10, 6);
-
-                // 팔
-                ctx.fillStyle = this.color;
-                const armSwing = Math.sin(this.animFrame * 0.15) * 3;
-                ctx.fillRect(this.x, this.y + 25 + armSwing, 10, 25);
-                ctx.fillRect(this.x + 50, this.y + 25 - armSwing, 10, 25);
-
-                // 다리
-                const legSwing = Math.sin(this.animFrame * 0.2) * 4;
-                ctx.fillRect(this.x + 15, this.y + 60 + legSwing, 12, 20);
-                ctx.fillRect(this.x + 33, this.y + 60 - legSwing, 12, 20);
-            }
-
-            drawAttackEffect(ctx) {
-                ctx.globalAlpha = 0.7;
-                const attackX = this.facing > 0 ? this.x + this.width : this.x - 40;
-
-                if (this.attackType === 'special') {
-                    // 특수 공격 이펙트 (캐릭터별)
-                    switch(this.characterType) {
-                        case 'striker':
-                            // 연속 베기
-                            ctx.fillStyle = '#ff0044';
-                            for (let i = 0; i < 5; i++) {
-                                ctx.save();
-                                ctx.translate(attackX + this.facing * i * 20, this.y + 30);
-                                ctx.rotate(Math.PI / 4);
-                                ctx.fillRect(0, 0, 30, 5);
-                                ctx.restore();
-                            }
-                            break;
-                        case 'blaster':
-                            // 에너지 빔
-                            const gradient = ctx.createLinearGradient(attackX, 0, attackX + this.facing * 150, 0);
-                            gradient.addColorStop(0, '#ff00ff');
-                            gradient.addColorStop(1, 'transparent');
-                            ctx.fillStyle = gradient;
-                            ctx.fillRect(attackX, this.y + 30, 150 * this.facing, 10);
-                            break;
-                        default:
-                            ctx.fillStyle = '#ffff00';
-                            for (let i = 0; i < 5; i++) {
-                                ctx.fillRect(attackX + this.facing * i * 25, this.y + 30, 20, 15);
-                            }
-                    }
-                } else {
-                    // 일반 공격
-                    ctx.fillStyle = this.color;
-                    ctx.shadowBlur = 20;
-                    ctx.shadowColor = this.color;
-                    const size = this.attackType === 'heavy' ? 50 : 35;
-                    ctx.fillRect(attackX, this.y + 25, size, 30);
-                }
-            }
-
             getHitbox() {
                 if (!this.isAttacking) return null;
 
-                const width = this.attackType === 'special' ? 125 : 40;
+                let width = 40;
+                if (this.attackType === 'super') width = 240;
+                else if (this.attackType === 'special') width = 168;
+                else if (this.attackType === 'heavy') width = 58;
+
                 return {
                     x: this.facing > 0 ? this.x + this.width : this.x - width,
-                    y: this.y + 30,
+                    y: this.y + 28,
                     width: width,
-                    height: 25
+                    height: 34
                 };
             }
         }
@@ -1723,33 +1778,39 @@
                 this.mode = mode;
                 this.ctx = GameSystem.ctx;
                 this.canvas = GameSystem.canvas;
-                this.groundLevel = this.canvas.height - 100;
+                this.groundLevel = this.canvas.height - 110;
 
-                this.p1 = new Robot(200, this.groundLevel, p1Char, true);
-
-                // P2 캐릭터: versus 모드면 선택된 캐릭터, 아니면 랜덤
+                this.p1 = new Robot(220, this.groundLevel, p1Char, true);
                 const p2Character = p2Char || this.getRandomCharacter();
-                this.p2 = new Robot(this.canvas.width - 260, this.groundLevel, p2Character, false);
+                this.p2 = new Robot(this.canvas.width - 290, this.groundLevel, p2Character, false);
 
                 this.particles = new ParticleSystem();
                 this.timer = 99;
                 this.round = 1;
+                this.p1Wins = 0;
+                this.p2Wins = 0;
                 this.running = false;
                 this.keys = {};
                 this.ai = null;
 
-                // AI 초기화 (versus 모드가 아닌 경우)
                 if (mode !== 'versus') {
-                    const difficulty = GameSystem.settings.difficulty || 'normal';
-                    this.ai = new AIController(this.p2, difficulty);
+                    this.ai = new AIController(this.p2, GameSystem.settings.difficulty);
                 }
 
                 this.setupInput();
+                this.updatePortraits();
             }
 
             getRandomCharacter() {
                 const chars = ['striker', 'tank', 'blaster', 'balanced'];
                 return chars[Math.floor(Math.random() * chars.length)];
+            }
+
+            updatePortraits() {
+                document.getElementById('p1-portrait').textContent = this.p1.emoji;
+                document.getElementById('p2-portrait').textContent = this.p2.emoji;
+                document.getElementById('p1-name').textContent = this.p1.name;
+                document.getElementById('p2-name').textContent = this.p2.name;
             }
 
             setupInput() {
@@ -1765,18 +1826,48 @@
 
             start() {
                 document.getElementById('main-menu').classList.add('hidden');
+                document.getElementById('character-select').classList.add('hidden');
                 document.getElementById('game-container').classList.add('active');
 
                 if (this.mode === 'versus') {
                     document.getElementById('p2-controls').style.display = 'block';
                 }
 
-                showFightMessage('FIGHT!');
-                SoundSystem.playSpecial();
+                this.startRound();
+            }
 
-                this.running = true;
-                this.startTimer();
-                this.gameLoop();
+            startRound() {
+                this.resetRound();
+                document.getElementById('round').textContent = `ROUND ${this.round}`;
+
+                showFightMessage(`ROUND ${this.round}`);
+                setTimeout(() => {
+                    showFightMessage('FIGHT!');
+                    SoundSystem.playSpecial();
+                    this.running = true;
+                    this.startTimer();
+                    this.gameLoop();
+                }, 1500);
+            }
+
+            resetRound() {
+                this.p1.health = this.p1.maxHealth;
+                this.p1.energy = this.p1.maxEnergy;
+                this.p1.superGauge = this.p1.superGauge; // 슈퍼게이지는 유지
+                this.p1.x = 220;
+                this.p1.y = this.groundLevel;
+                this.p1.vx = 0;
+                this.p1.vy = 0;
+
+                this.p2.health = this.p2.maxHealth;
+                this.p2.energy = this.p2.maxEnergy;
+                this.p2.superGauge = this.p2.superGauge;
+                this.p2.x = this.canvas.width - 290;
+                this.p2.y = this.groundLevel;
+                this.p2.vx = 0;
+                this.p2.vy = 0;
+
+                this.timer = 99;
             }
 
             startTimer() {
@@ -1792,9 +1883,15 @@
             timeUp() {
                 clearInterval(this.timerInterval);
                 this.running = false;
-                const winner = this.p1.health > this.p2.health ? 'P1' : 'P2';
-                showFightMessage(`${winner} WINS!`);
-                setTimeout(() => this.backToMenu(), 3000);
+
+                if (this.p1.health > this.p2.health) {
+                    this.roundWin(true);
+                } else if (this.p2.health > this.p1.health) {
+                    this.roundWin(false);
+                } else {
+                    showFightMessage('DRAW!');
+                    setTimeout(() => this.startRound(), 2500);
+                }
             }
 
             handleInput() {
@@ -1802,8 +1899,7 @@
                 if (this.keys['a']) this.p1.move(-1);
                 if (this.keys['d']) this.p1.move(1);
                 if (this.keys['w']) this.p1.jump();
-                if (this.keys['s']) this.p1.guard(true);
-                else this.p1.guard(false);
+                this.p1.guard(this.keys['s']);
 
                 if (this.keys['j']) {
                     if (this.p1.attack('light')) {
@@ -1823,19 +1919,22 @@
                         delete this.keys['l'];
                     }
                 }
-                if (this.keys['u']) {
-                    if (this.p1.dodge()) {
-                        delete this.keys['u'];
+                if (this.keys['i']) {
+                    if (this.p1.attackSuper()) {
+                        SoundSystem.playSuper();
+                        delete this.keys['i'];
                     }
                 }
+                if (this.keys['u']) {
+                    if (this.p1.dodge()) delete this.keys['u'];
+                }
 
-                // P2 (VS 모드 또는 AI)
+                // P2
                 if (this.mode === 'versus') {
                     if (this.keys['arrowleft']) this.p2.move(-1);
                     if (this.keys['arrowright']) this.p2.move(1);
                     if (this.keys['arrowup']) this.p2.jump();
-                    if (this.keys['arrowdown']) this.p2.guard(true);
-                    else this.p2.guard(false);
+                    this.p2.guard(this.keys['arrowdown']);
 
                     if (this.keys['1']) {
                         if (this.p2.attack('light')) delete this.keys['1'];
@@ -1846,11 +1945,13 @@
                     if (this.keys['3']) {
                         if (this.p2.attack('special')) delete this.keys['3'];
                     }
+                    if (this.keys['4']) {
+                        if (this.p2.attackSuper()) delete this.keys['4'];
+                    }
                     if (this.keys['0']) {
                         if (this.p2.dodge()) delete this.keys['0'];
                     }
                 } else if (this.ai) {
-                    // 고급 AI
                     this.ai.update(this.p1);
                 }
             }
@@ -1860,23 +1961,24 @@
                 const p2Hit = this.p2.getHitbox();
 
                 if (p1Hit && this.checkCollision(p1Hit, this.p2)) {
-                    let baseDamage = this.p1.attackType === 'light' ? 8 : this.p1.attackType === 'heavy' ? 15 : 30;
+                    let baseDamage = {light: 9, heavy: 17, special: 35, super: 55}[this.p1.attackType] || 9;
                     let damage = baseDamage * this.p1.attackMultiplier;
-                    if (this.p2.takeDamage(damage, this.p1.facing * 8)) {
-                        SoundSystem.playHit();
-                        const particleCount = this.p1.attackType === 'special' ? 50 : this.p1.attackType === 'heavy' ? 35 : 25;
-                        this.particles.createExplosion(
-                            this.p2.x + this.p2.width/2,
-                            this.p2.y + this.p2.height/2,
-                            this.p1.color,
-                            particleCount,
-                            this.p1.characterType
-                        );
-                        this.p1.combo++;
-                        this.p1.comboTimer = 90;
-                        this.showCombo(this.p1);
+                    let actualDamage = this.p2.takeDamage(damage, this.p1.facing * 10);
 
-                        // 최고 콤보 기록
+                    if (actualDamage) {
+                        SoundSystem.playHit();
+                        const particleCount = this.p1.attackType === 'super' ? 80 : this.p1.attackType === 'special' ? 60 : this.p1.attackType === 'heavy' ? 45 : 30;
+
+                        if (this.p1.attackType === 'super') {
+                            this.particles.createSuperExplosion(this.p2.x + this.p2.width/2, this.p2.y + this.p2.height/2, this.p1.color);
+                        } else {
+                            this.particles.createExplosion(this.p2.x + this.p2.width/2, this.p2.y + this.p2.height/2, this.p1.color, particleCount, this.p1.attackType === 'special' ? 1.5 : 1);
+                        }
+
+                        this.p1.combo++;
+                        this.p1.comboTimer = 100;
+                        this.p1.addSuperGauge(actualDamage * 0.3);
+
                         if (this.p1.combo > GameSystem.playerData.highestCombo) {
                             GameSystem.playerData.highestCombo = this.p1.combo;
                             GameSystem.savePlayerData();
@@ -1885,21 +1987,23 @@
                 }
 
                 if (p2Hit && this.checkCollision(p2Hit, this.p1)) {
-                    let baseDamage = this.p2.attackType === 'light' ? 8 : this.p2.attackType === 'heavy' ? 15 : 30;
+                    let baseDamage = {light: 9, heavy: 17, special: 35, super: 55}[this.p2.attackType] || 9;
                     let damage = baseDamage * this.p2.attackMultiplier;
-                    if (this.p1.takeDamage(damage, this.p2.facing * 8)) {
+                    let actualDamage = this.p1.takeDamage(damage, this.p2.facing * 10);
+
+                    if (actualDamage) {
                         SoundSystem.playHit();
-                        const particleCount = this.p2.attackType === 'special' ? 50 : this.p2.attackType === 'heavy' ? 35 : 25;
-                        this.particles.createExplosion(
-                            this.p1.x + this.p1.width/2,
-                            this.p1.y + this.p1.height/2,
-                            this.p2.color,
-                            particleCount,
-                            this.p2.characterType
-                        );
+                        const particleCount = this.p2.attackType === 'super' ? 80 : this.p2.attackType === 'special' ? 60 : this.p2.attackType === 'heavy' ? 45 : 30;
+
+                        if (this.p2.attackType === 'super') {
+                            this.particles.createSuperExplosion(this.p1.x + this.p1.width/2, this.p1.y + this.p1.height/2, this.p2.color);
+                        } else {
+                            this.particles.createExplosion(this.p1.x + this.p1.width/2, this.p1.y + this.p1.height/2, this.p2.color, particleCount, this.p2.attackType === 'special' ? 1.5 : 1);
+                        }
+
                         this.p2.combo++;
-                        this.p2.comboTimer = 90;
-                        this.showCombo(this.p2);
+                        this.p2.comboTimer = 100;
+                        this.p2.addSuperGauge(actualDamage * 0.3);
                     }
                 }
             }
@@ -1911,18 +2015,6 @@
                     box.y < robot.y + robot.height &&
                     box.y + box.height > robot.y
                 );
-            }
-
-            showCombo(player) {
-                if (player.combo < 2) return;
-
-                const combo = document.createElement('div');
-                combo.className = 'combo-display';
-                combo.textContent = `${player.combo} COMBO!`;
-                combo.style.left = player.isPlayer1 ? '20%' : '80%';
-                document.body.appendChild(combo);
-
-                setTimeout(() => combo.remove(), 1500);
             }
 
             update() {
@@ -1938,9 +2030,10 @@
                 this.particles.update();
 
                 this.updateUI();
+                this.updateSkillCooldowns();
 
                 if (this.p1.health <= 0 || this.p2.health <= 0) {
-                    this.endGame();
+                    this.roundEnd();
                 }
             }
 
@@ -1949,18 +2042,88 @@
                 document.getElementById('p1-energy').style.width = (this.p1.energy / this.p1.maxEnergy * 100) + '%';
                 document.getElementById('p1-hp-text').textContent = Math.round(this.p1.health);
 
+                const p1Super = document.getElementById('p1-super');
+                p1Super.style.width = (this.p1.superGauge / this.p1.maxSuperGauge * 100) + '%';
+                if (this.p1.superGauge >= 100) {
+                    p1Super.classList.add('super-ready');
+                } else {
+                    p1Super.classList.remove('super-ready');
+                }
+
                 document.getElementById('p2-health').style.width = (this.p2.health / this.p2.maxHealth * 100) + '%';
                 document.getElementById('p2-energy').style.width = (this.p2.energy / this.p2.maxEnergy * 100) + '%';
                 document.getElementById('p2-hp-text').textContent = Math.round(this.p2.health);
+
+                const p2Super = document.getElementById('p2-super');
+                p2Super.style.width = (this.p2.superGauge / this.p2.maxSuperGauge * 100) + '%';
+                if (this.p2.superGauge >= 100) {
+                    p2Super.classList.add('super-ready');
+                } else {
+                    p2Super.classList.remove('super-ready');
+                }
             }
 
-            endGame() {
+            updateSkillCooldowns() {
+                const updateCooldown = (skillId, cooldown, maxCooldown) => {
+                    const overlay = document.querySelector(`#${skillId} .skill-cooldown-overlay`);
+                    const icon = document.getElementById(skillId);
+
+                    if (cooldown > 0) {
+                        overlay.style.height = (cooldown / maxCooldown * 100) + '%';
+                        icon.classList.remove('ready');
+                    } else {
+                        overlay.style.height = '0%';
+                        icon.classList.add('ready');
+                    }
+                };
+
+                updateCooldown('p1-skill-light', this.p1.skillCooldowns.light, 15);
+                updateCooldown('p1-skill-heavy', this.p1.skillCooldowns.heavy, 30);
+                updateCooldown('p1-skill-special', this.p1.skillCooldowns.special, 60);
+
+                const p1SuperOverlay = document.querySelector('#p1-skill-super .skill-cooldown-overlay');
+                const p1SuperIcon = document.getElementById('p1-skill-super');
+                if (this.p1.superGauge >= 100) {
+                    p1SuperOverlay.style.height = '0%';
+                    p1SuperIcon.classList.add('ready');
+                } else {
+                    p1SuperOverlay.style.height = ((100 - this.p1.superGauge) / 100 * 100) + '%';
+                    p1SuperIcon.classList.remove('ready');
+                }
+            }
+
+            roundEnd() {
                 clearInterval(this.timerInterval);
                 this.running = false;
-                const p1Won = this.p1.health > 0;
-                const winner = p1Won ? 'PLAYER 1' : 'PLAYER 2';
 
-                // 통계 업데이트
+                const p1Won = this.p1.health > 0;
+                this.roundWin(p1Won);
+            }
+
+            roundWin(p1Won) {
+                if (p1Won) {
+                    this.p1Wins++;
+                    document.getElementById(`p1-win-${this.p1Wins}`).classList.add('won');
+                } else {
+                    this.p2Wins++;
+                    document.getElementById(`p2-win-${this.p2Wins}`).classList.add('won');
+                }
+
+                const winner = p1Won ? 'PLAYER 1' : 'PLAYER 2';
+                showFightMessage(`${winner} WINS!`);
+
+                // 2선승제
+                if (this.p1Wins >= 2 || this.p2Wins >= 2) {
+                    setTimeout(() => this.gameEnd(), 2500);
+                } else {
+                    this.round++;
+                    setTimeout(() => this.startRound(), 2500);
+                }
+            }
+
+            gameEnd() {
+                const p1Won = this.p1Wins >= 2;
+
                 GameSystem.playerData.totalMatches++;
                 if (p1Won) {
                     GameSystem.playerData.wins++;
@@ -1969,20 +2132,24 @@
                 }
                 GameSystem.savePlayerData();
 
-                // 업적 확인
                 Achievements.checkAll();
 
-                showFightMessage(`${winner} WINS!`);
+                showFightMessage(p1Won ? 'VICTORY!' : 'DEFEAT');
                 setTimeout(() => this.backToMenu(), 3000);
             }
 
             backToMenu() {
                 document.getElementById('game-container').classList.remove('active');
                 document.getElementById('main-menu').classList.remove('hidden');
+
+                // 라운드 표시 초기화
+                for (let i = 1; i <= 2; i++) {
+                    document.getElementById(`p1-win-${i}`).classList.remove('won');
+                    document.getElementById(`p2-win-${i}`).classList.remove('won');
+                }
             }
 
             render() {
-                // 배경
                 const gradient = this.ctx.createLinearGradient(0, 0, 0, this.canvas.height);
                 gradient.addColorStop(0, '#0a0012');
                 gradient.addColorStop(0.5, '#1a0030');
@@ -1990,8 +2157,7 @@
                 this.ctx.fillStyle = gradient;
                 this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
 
-                // 그리드
-                this.ctx.strokeStyle = 'rgba(0, 255, 255, 0.1)';
+                this.ctx.strokeStyle = 'rgba(0, 255, 255, 0.12)';
                 this.ctx.lineWidth = 1;
                 for (let x = 0; x < this.canvas.width; x += 50) {
                     this.ctx.beginPath();
@@ -2000,10 +2166,9 @@
                     this.ctx.stroke();
                 }
 
-                // 지면
                 this.ctx.strokeStyle = '#00ffff';
-                this.ctx.lineWidth = 3;
-                this.ctx.shadowBlur = 10;
+                this.ctx.lineWidth = 4;
+                this.ctx.shadowBlur = 15;
                 this.ctx.shadowColor = '#00ffff';
                 this.ctx.beginPath();
                 this.ctx.moveTo(0, this.groundLevel);
@@ -2011,11 +2176,8 @@
                 this.ctx.stroke();
                 this.ctx.shadowBlur = 0;
 
-                // 로봇
                 this.p2.draw(this.ctx);
                 this.p1.draw(this.ctx);
-
-                // 파티클
                 this.particles.draw(this.ctx);
             }
 
@@ -2029,7 +2191,7 @@
             }
         }
 
-        // ===== UI 함수 =====
+        // ===== UI =====
         let currentGame = null;
         let selectedMode = null;
         let p1Selection = null;
@@ -2040,7 +2202,6 @@
             p1Selection = null;
             p2Selection = null;
 
-            // 모든 캐릭터 카드에서 selected 제거
             document.querySelectorAll('.character-card').forEach(card => {
                 card.classList.remove('selected');
             });
@@ -2049,9 +2210,8 @@
             document.getElementById('character-select').classList.remove('hidden');
         }
 
-        function selectCharacter(charType, player) {
+        function selectCharacter(charType) {
             if (selectedMode === 'versus') {
-                // 대전 모드: P1과 P2 모두 선택
                 if (!p1Selection) {
                     p1Selection = charType;
                     document.querySelector(`[data-char="${charType}"]`).classList.add('selected');
@@ -2061,7 +2221,6 @@
                     startGame(selectedMode, p1Selection, p2Selection);
                 }
             } else {
-                // 다른 모드: P1만 선택
                 p1Selection = charType;
                 startGame(selectedMode, p1Selection);
             }
@@ -2074,7 +2233,6 @@
 
         function startGame(mode, p1Char, p2Char = null) {
             currentGame = new Game(mode, p1Char, p2Char);
-            document.getElementById('character-select').classList.add('hidden');
             currentGame.start();
         }
 
@@ -2097,7 +2255,6 @@
             document.getElementById('stat-combo').textContent = data.highestCombo;
             document.getElementById('stat-achievements').textContent = data.achievements.length + '/' + Achievements.list.length;
 
-            // 업적 목록 표시
             const achievementsList = document.getElementById('achievements-list');
             achievementsList.innerHTML = '';
             Achievements.list.forEach(achievement => {
@@ -2105,10 +2262,10 @@
                 const item = document.createElement('div');
                 item.className = 'achievement-item' + (unlocked ? '' : ' locked');
                 item.innerHTML = `
-                    <div style="font-weight: 700; color: ${unlocked ? 'var(--accent)' : 'var(--text-secondary)'};">
+                    <div style="font-weight: 700; font-size: 1.1rem; color: ${unlocked ? 'var(--accent)' : 'rgba(255,255,255,0.6)'};">
                         ${unlocked ? '🏆' : '🔒'} ${achievement.name}
                     </div>
-                    <div style="font-size: 0.8rem; color: var(--text-secondary); margin-top: 0.3rem;">
+                    <div style="font-size: 0.9rem; color: rgba(255,255,255,0.7); margin-top: 0.4rem;">
                         ${achievement.description}
                     </div>
                 `;
@@ -2142,14 +2299,16 @@
             GameSystem.settings.difficulty = value;
         }
 
-        // ===== 업적 시스템 =====
+        // ===== 업적 =====
         const Achievements = {
             list: [
                 { id: 'first_win', name: '첫 승리', description: '첫 대전에서 승리하기', check: () => GameSystem.playerData.wins >= 1 },
-                { id: 'combo_master', name: '콤보 마스터', description: '10 콤보 달성', check: () => GameSystem.playerData.highestCombo >= 10 },
+                { id: 'combo_5', name: '콤보 마스터', description: '5 콤보 달성', check: () => GameSystem.playerData.highestCombo >= 5 },
+                { id: 'combo_10', name: '콤보 레전드', description: '10 콤보 달성', check: () => GameSystem.playerData.highestCombo >= 10 },
                 { id: 'warrior', name: '전사', description: '10회 승리', check: () => GameSystem.playerData.wins >= 10 },
                 { id: 'champion', name: '챔피언', description: '50회 승리', check: () => GameSystem.playerData.wins >= 50 },
-                { id: 'veteran', name: '베테랑', description: '100경기 참가', check: () => GameSystem.playerData.totalMatches >= 100 }
+                { id: 'veteran', name: '베테랑', description: '100경기 참가', check: () => GameSystem.playerData.totalMatches >= 100 },
+                { id: 'destroyer', name: '파괴자', description: '100회 승리', check: () => GameSystem.playerData.wins >= 100 }
             ],
 
             checkAll() {
@@ -2172,26 +2331,26 @@
                     position: fixed;
                     top: 20px;
                     right: 20px;
-                    background: linear-gradient(135deg, rgba(0, 255, 255, 0.9), rgba(255, 0, 255, 0.9));
-                    padding: 1.5rem;
-                    border-radius: 10px;
-                    border: 2px solid #ffff00;
+                    background: linear-gradient(135deg, rgba(0, 255, 255, 0.95), rgba(255, 0, 255, 0.95));
+                    padding: 2rem;
+                    border-radius: 12px;
+                    border: 3px solid #ffff00;
                     z-index: 10000;
                     font-family: 'Orbitron', sans-serif;
-                    animation: slideInRight 0.5s ease;
-                    box-shadow: 0 0 30px rgba(255, 255, 0, 0.6);
+                    animation: slideInRight 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+                    box-shadow: 0 0 40px rgba(255, 255, 0, 0.8);
                 `;
                 notification.innerHTML = `
-                    <div style="font-size: 1.2rem; font-weight: 700; color: #ffff00; margin-bottom: 0.5rem;">🏆 업적 달성!</div>
-                    <div style="font-size: 1rem; font-weight: 700;">${achievement.name}</div>
-                    <div style="font-size: 0.8rem; color: #ffffff;">${achievement.description}</div>
+                    <div style="font-size: 1.4rem; font-weight: 700; color: #ffff00; margin-bottom: 0.6rem; text-shadow: 0 0 10px #ffff00;">🏆 업적 달성!</div>
+                    <div style="font-size: 1.2rem; font-weight: 700; margin-bottom: 0.3rem;">${achievement.name}</div>
+                    <div style="font-size: 0.9rem; color: #ffffff;">${achievement.description}</div>
                 `;
                 document.body.appendChild(notification);
 
                 setTimeout(() => {
                     notification.style.animation = 'slideOutRight 0.5s ease';
                     setTimeout(() => notification.remove(), 500);
-                }, 3000);
+                }, 3500);
             }
         };
 
